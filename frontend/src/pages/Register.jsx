@@ -36,120 +36,124 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0f172a] p-4 py-12">
+        <div className="min-h-screen flex items-center justify-center p-4 py-12 relative overflow-hidden bg-brand-bg">
+            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-emerald-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 -translate-x-1/2"></div>
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-emerald-100 rounded-full blur-3xl opacity-30 translate-y-1/2 translate-x-1/2"></div>
+
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-xl"
+                className="glass w-full max-w-2xl p-8 md:p-12 rounded-[32px] relative z-10"
             >
-                <div className="glass p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-white mb-2">Join ELMS</h1>
-                        <p className="text-slate-400">Create your account to start managing leaves</p>
+                <div className="text-center mb-10">
+                    <div className="brand text-2xl font-extrabold tracking-tighter text-emerald-600 flex items-center justify-center gap-2 mb-4">
+                        <div className="brand-dot"></div> LeaveSync
+                    </div>
+                    <h1 className="text-4xl font-syne font-extrabold text-brand-text mb-2">Create Account</h1>
+                    <p className="text-brand-muted font-medium italic">Join the modern way of leave management</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2 col-span-2 md:col-span-1">
+                        <label className="text-xs font-bold text-brand-muted uppercase tracking-wider ml-1">Full Name</label>
+                        <div className="relative">
+                            <User className="absolute left-4 top-3 text-brand-muted" size={20} />
+                            <input
+                                type="text"
+                                name="name"
+                                required
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full bg-white border border-brand-border focus:border-emerald-500 rounded-xl py-3 pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 font-medium"
+                                placeholder="John Doe"
+                            />
+                        </div>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2 col-span-2 md:col-span-1">
-                            <label className="text-sm font-medium text-slate-300 ml-1">Full Name</label>
-                            <div className="relative group">
-                                <User className="absolute left-3 top-3.5 text-slate-500" size={20} />
-                                <input
-                                    name="name"
-                                    type="text"
-                                    required
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-slate-800 focus:border-primary-500 rounded-xl py-3 pl-11 pr-4 outline-none transition-all"
-                                    placeholder="John Doe"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2 col-span-2 md:col-span-1">
-                            <label className="text-sm font-medium text-slate-300 ml-1">Email Address</label>
-                            <div className="relative group">
-                                <Mail className="absolute left-3 top-3.5 text-slate-500" size={20} />
-                                <input
-                                    name="email"
-                                    type="email"
-                                    required
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-slate-800 focus:border-primary-500 rounded-xl py-3 pl-11 pr-4 outline-none transition-all"
-                                    placeholder="john@company.com"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2 col-span-2 md:col-span-1">
-                            <label className="text-sm font-medium text-slate-300 ml-1">Password</label>
-                            <div className="relative group">
-                                <Lock className="absolute left-3 top-3.5 text-slate-500" size={20} />
-                                <input
-                                    name="password"
-                                    type="password"
-                                    required
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-slate-800 focus:border-primary-500 rounded-xl py-3 pl-11 pr-4 outline-none transition-all"
-                                    placeholder="••••••••"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2 col-span-2 md:col-span-1">
-                            <label className="text-sm font-medium text-slate-300 ml-1">Department</label>
-                            <div className="relative group">
-                                <Briefcase className="absolute left-3 top-3.5 text-slate-500" size={20} />
-                                <input
-                                    name="department"
-                                    type="text"
-                                    required
-                                    value={formData.department}
-                                    onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-slate-800 focus:border-primary-500 rounded-xl py-3 pl-11 pr-4 outline-none transition-all"
-                                    placeholder="Engineering"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2 col-span-2">
-                            <label className="text-sm font-medium text-slate-300 ml-1">Role</label>
-                            <select
-                                name="role"
-                                value={formData.role}
+                    <div className="space-y-2 col-span-2 md:col-span-1">
+                        <label className="text-xs font-bold text-brand-muted uppercase tracking-wider ml-1">Email Address</label>
+                        <div className="relative">
+                            <Mail className="absolute left-4 top-3 text-brand-muted" size={20} />
+                            <input
+                                type="email"
+                                name="email"
+                                required
+                                value={formData.email}
                                 onChange={handleChange}
-                                className="w-full bg-slate-900/50 border border-slate-800 focus:border-primary-500 rounded-xl py-3 px-4 outline-none transition-all appearance-none cursor-pointer"
-                            >
-                                <option value="employee">Employee</option>
-                                <option value="manager">Manager</option>
-                                <option value="admin">Admin</option>
-                            </select>
+                                className="w-full bg-white border border-brand-border focus:border-emerald-500 rounded-xl py-3 pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 font-medium"
+                                placeholder="name@company.com"
+                            />
                         </div>
+                    </div>
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full col-span-2 bg-primary-600 hover:bg-primary-500 text-white font-bold py-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 group disabled:opacity-70 mt-4"
+                    <div className="space-y-2 col-span-2 md:col-span-1">
+                        <label className="text-xs font-bold text-brand-muted uppercase tracking-wider ml-1">Password</label>
+                        <div className="relative">
+                            <Lock className="absolute left-4 top-3 text-brand-muted" size={20} />
+                            <input
+                                name="password"
+                                type="password"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                                className="w-full bg-white border border-brand-border focus:border-emerald-500 rounded-xl py-3 pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 font-medium"
+                                placeholder="••••••••"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="space-y-2 col-span-2 md:col-span-1">
+                        <label className="text-xs font-bold text-brand-muted uppercase tracking-wider ml-1">Department</label>
+                        <div className="relative">
+                            <Briefcase className="absolute left-4 top-3 text-brand-muted" size={20} />
+                            <input
+                                name="department"
+                                type="text"
+                                required
+                                value={formData.department}
+                                onChange={handleChange}
+                                className="w-full bg-white border border-brand-border focus:border-emerald-500 rounded-xl py-3 pl-12 pr-4 outline-none transition-all placeholder:text-slate-400 font-medium"
+                                placeholder="Engineering"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="space-y-2 col-span-2">
+                        <label className="text-xs font-bold text-brand-muted uppercase tracking-wider ml-1">Role</label>
+                        <select
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            className="w-full bg-white border border-brand-border focus:border-emerald-500 rounded-xl py-3 px-4 outline-none transition-all appearance-none cursor-pointer text-brand-text font-medium"
                         >
-                            {loading ? (
-                                <Loader2 className="animate-spin" size={20} />
-                            ) : (
-                                <>
-                                    <span>Create Account</span>
-                                    <Plus className="group-hover:rotate-90 transition-transform" size={20} />
-                                </>
-                            )}
-                        </button>
-                    </form>
+                            <option value="employee">Employee</option>
+                            <option value="manager">Manager</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
 
-                    <p className="text-center mt-8 text-slate-400">
-                        Already have an account?{' '}
-                        <Link to="/login" className="text-primary-400 hover:text-primary-300 font-semibold underline decoration-primary-900 underline-offset-4">
-                            Log in instead
-                        </Link>
-                    </p>
-                </div>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full col-span-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 rounded-xl shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2 group disabled:opacity-70 mt-4"
+                    >
+                        {loading ? (
+                            <Loader2 className="animate-spin" size={20} />
+                        ) : (
+                            <>
+                                <span>Create Account</span>
+                                <Plus className="group-hover:rotate-90 transition-transform" size={20} />
+                            </>
+                        )}
+                    </button>
+                </form>
+
+                <p className="text-center mt-8 text-brand-muted font-medium text-sm">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-emerald-600 hover:text-emerald-700 font-extrabold underline decoration-emerald-200 underline-offset-4 transition-all">
+                        Log in instead
+                    </Link>
+                </p>
             </motion.div>
         </div>
     );

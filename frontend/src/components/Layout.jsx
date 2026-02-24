@@ -1,99 +1,58 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import Sidebar from './Sidebar';
 import { useAuth } from '../context/AuthContext';
-import { LayoutDashboard, FilePlus, ClipboardList, LogOut, User } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { getInitials, avatarColor, capitalize } from '../utils/helpers';
 
-const Layout = () => {
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
+const Layout = ({ children, title }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const { user } = useAuth();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
+  return (
+    <div className="min-h-screen bg-gray-50 flex">
+      <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
-    return (
-        <div className="flex h-screen bg-[#0f172a] text-slate-200">
-            {/* Sidebar */}
-            <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col">
-                <div className="p-6">
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-primary-600 bg-clip-text text-transparent">
-                        ELMS
-                    </h1>
-                </div>
+      {/* Main content */}
+      <div className="flex-1 lg:ml-56 flex flex-col min-h-screen">
+        {/* Top Bar */}
+        <header className="bg-white border-b border-gray-100 px-4 lg:px-6 py-3.5 flex items-center justify-between sticky top-0 z-20">
+          <div className="flex items-center gap-3">
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <div className="w-5 h-0.5 bg-gray-600 mb-1"></div>
+              <div className="w-5 h-0.5 bg-gray-600 mb-1"></div>
+              <div className="w-5 h-0.5 bg-gray-600"></div>
+            </button>
+            <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
+          </div>
+          {/* Header right */}
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block text-right">
+              <p className="text-sm font-semibold text-gray-800">{user?.name}</p>
+              <p className="text-xs text-gray-500">
+                <span className={`inline-block px-1.5 py-0.5 rounded-full text-xs font-semibold
+                  ${user?.role === 'admin' ? 'bg-purple-100 text-purple-700' :
+                    user?.role === 'manager' ? 'bg-blue-100 text-blue-700' :
+                    'bg-gray-100 text-gray-600'}`}>
+                  {capitalize(user?.role)}
+                </span>
+              </p>
+            </div>
+            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold ${avatarColor(user?.name)}`}>
+              {getInitials(user?.name)}
+            </div>
+          </div>
+        </header>
 
-                <nav className="flex-1 px-4 space-y-2 mt-4">
-                    <NavLink
-                        to="/"
-                        end
-                        className={({ isActive }) =>
-                            `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/20' : 'hover:bg-slate-800 text-slate-400'
-                            }`
-                        }
-                    >
-                        <LayoutDashboard size={20} />
-                        <span>Dashboard</span>
-                    </NavLink>
-
-                    {user?.role === 'employee' && (
-                        <NavLink
-                            to="/apply"
-                            className={({ isActive }) =>
-                                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/20' : 'hover:bg-slate-800 text-slate-400'
-                                }`
-                            }
-                        >
-                            <FilePlus size={20} />
-                            <span>Apply Leave</span>
-                        </NavLink>
-                    )}
-
-                    {(user?.role === 'manager' || user?.role === 'admin') && (
-                        <NavLink
-                            to="/requests"
-                            className={({ isActive }) =>
-                                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive ? 'bg-primary-600 text-white shadow-lg shadow-primary-900/20' : 'hover:bg-slate-800 text-slate-400'
-                                }`
-                            }
-                        >
-                            <ClipboardList size={20} />
-                            <span>Leave Requests</span>
-                        </NavLink>
-                    )}
-                </nav>
-
-                <div className="p-4 border-t border-slate-800">
-                    <div className="flex items-center gap-3 px-4 py-3 mb-2">
-                        <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center text-xs font-bold">
-                            {user?.name?.[0]?.toUpperCase()}
-                        </div>
-                        <div className="flex-1 overflow-hidden text-sm">
-                            <p className="font-semibold truncate">{user?.name}</p>
-                            <p className="text-slate-500 text-xs capitalize">{user?.role}</p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-all"
-                    >
-                        <LogOut size={20} />
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 overflow-y-auto p-8">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    <Outlet />
-                </motion.div>
-            </main>
-        </div>
-    );
+        {/* Page Content */}
+        <main className="flex-1 p-4 lg:p-6 fade-in">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
 };
 
 export default Layout;
