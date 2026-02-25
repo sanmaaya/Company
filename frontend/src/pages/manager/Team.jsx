@@ -28,7 +28,7 @@ const Team = () => {
             {members.map(m => (
               <div key={m._id} className="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-all hover:-translate-y-0.5">
                 <div className="flex items-center gap-3 mb-3">
-                  <Avatar name={m.name} size="md" />
+                  <Avatar name={m.name} email={m.email} src={m.profilePic} size="md" />
                   <div>
                     <p className="font-semibold text-gray-800 text-sm">{m.name}</p>
                     <p className="text-xs text-gray-400">{m.email}</p>

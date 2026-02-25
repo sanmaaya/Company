@@ -18,46 +18,46 @@ const ReviewModal = ({ leave, onClose, onSubmit }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fade-in">
-        <div className="p-6 border-b border-gray-100">
-          <h3 className="font-bold text-gray-800 text-lg">Review Leave Request</h3>
-          <p className="text-gray-500 text-sm mt-1">by {leave.employee?.name}</p>
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md animate-fade-in border border-white/5 dark:border-slate-800">
+        <div className="p-8 border-b border-slate-100 dark:border-slate-800">
+          <h3 className="text-xl font-extrabold text-slate-800 dark:text-white tracking-tight">Review Leave</h3>
+          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Requested by {leave.employee?.name}</p>
         </div>
-        <div className="p-6 space-y-3">
-          <div className="bg-gray-50 rounded-lg p-4 text-sm space-y-2">
-            <div className="flex justify-between"><span className="text-gray-500">Type:</span><LeaveTypeBadge type={leave.leaveType} /></div>
-            <div className="flex justify-between"><span className="text-gray-500">From:</span><span className="font-medium">{new Date(leave.startDate).toLocaleDateString('en-IN')}</span></div>
-            <div className="flex justify-between"><span className="text-gray-500">To:</span><span className="font-medium">{new Date(leave.endDate).toLocaleDateString('en-IN')}</span></div>
-            <div className="flex justify-between"><span className="text-gray-500">Days:</span><span className="font-bold">{leave.totalDays}</span></div>
-            <div className="flex flex-col gap-1"><span className="text-gray-500">Reason:</span><span className="font-medium">{leave.reason}</span></div>
+        <div className="p-8 space-y-4">
+          <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-5 text-sm space-y-3 border border-slate-100 dark:border-slate-700/50">
+            <div className="flex justify-between items-center"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Type</span><LeaveTypeBadge type={leave.leaveType} /></div>
+            <div className="flex justify-between items-center"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">From</span><span className="font-bold dark:text-white">{new Date(leave.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
+            <div className="flex justify-between items-center"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">To</span><span className="font-bold dark:text-white">{new Date(leave.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
+            <div className="flex justify-between items-center pt-2 border-t border-slate-200/50 dark:border-slate-700/50"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Duration</span><span className="text-lg font-black text-emerald-600 dark:text-emerald-400">{leave.totalDays} Days</span></div>
+            <div className="pt-2 border-t border-slate-200/50 dark:border-slate-700/50"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Reason</span><p className="font-medium text-slate-700 dark:text-slate-300 leading-relaxed italic">"{leave.reason}"</p></div>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Comment (optional)</label>
+            <label className="form-label">Review Comment</label>
             <textarea
-              rows={2}
+              rows={3}
               value={comment}
               onChange={e => setComment(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm resize-none"
-              placeholder="Add a note to the employee..."
+              className="input resize-none"
+              placeholder="Add a note for the employee (e.g. Approved, please hand over tasks)"
             />
           </div>
         </div>
-        <div className="p-6 border-t border-gray-100 flex gap-3">
-          <button onClick={onClose} className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50">Cancel</button>
+        <div className="p-8 border-t border-slate-100 dark:border-slate-800 flex gap-4">
+          <button onClick={onClose} className="btn-secondary flex-1">Back</button>
           <button
             onClick={() => handle('rejected')}
             disabled={loading}
-            className="flex-1 py-2.5 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-100 disabled:opacity-60"
+            className="btn-danger flex-1 bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 shadow-none hover:bg-rose-100"
           >
-            ❌ Reject
+            Reject
           </button>
           <button
             onClick={() => handle('approved')}
             disabled={loading}
-            className="flex-1 py-2.5 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 disabled:opacity-60"
+            className="btn-primary flex-1"
           >
-            {loading ? '...' : '✅ Approve'}
+            {loading ? '...' : 'Approve'}
           </button>
         </div>
       </div>
@@ -96,29 +96,29 @@ const Approvals = () => {
       )}
 
       {pending > 0 && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-5 flex items-center gap-3">
-          <span className="text-2xl">⏳</span>
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/50 rounded-3xl p-6 mb-8 flex items-center gap-5 shadow-sm">
+          <div className="w-14 h-14 bg-white dark:bg-slate-900 rounded-2xl flex items-center justify-center text-3xl shadow-sm border border-amber-100 dark:border-slate-800">⏳</div>
           <div>
-            <p className="font-semibold text-yellow-800">{pending} pending request{pending > 1 ? 's' : ''} awaiting your review</p>
-            <p className="text-yellow-700 text-sm">Review and approve/reject to keep your team moving</p>
+            <p className="text-lg font-extrabold text-amber-800 dark:text-amber-400 tracking-tight">{pending} Approval{pending > 1 ? 's' : ''} Pending</p>
+            <p className="text-amber-700/70 dark:text-amber-500/80 text-sm font-medium">Please review these requests to ensure smooth team operations.</p>
           </div>
         </div>
       )}
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
-        <div className="p-5 border-b border-gray-100 flex flex-wrap gap-2 items-center justify-between">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between bg-slate-50/30 dark:bg-slate-800/20">
           <div className="flex gap-2">
             {['all', 'pending', 'approved', 'rejected'].map(s => (
               <button
                 key={s}
                 onClick={() => setFilter(s)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${filter === s ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${filter === s ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
               >
-                {s} {s === 'pending' && pending > 0 && <span className="ml-1 bg-red-500 text-white rounded-full px-1.5 py-0.5 text-xs">{pending}</span>}
+                {s} {s === 'pending' && pending > 0 && <span className="ml-1 bg-rose-500 text-white rounded-full px-1.5 py-0.5 text-[10px]">{pending}</span>}
               </button>
             ))}
           </div>
-          <span className="text-sm text-gray-400">{filtered.length} records</span>
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{filtered.length} requests total</span>
         </div>
 
         {loading ? (
@@ -132,38 +132,42 @@ const Approvals = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-left">
-                  {['Employee', 'Dept', 'Type', 'From', 'To', 'Days', 'Reason', 'Status', 'Action'].map(h => (
-                    <th key={h} className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">{h}</th>
+                <tr>
+                  {['Employee', 'Department', 'Type', 'Dates', 'Days', 'Reason', 'Status', 'Review'].map(h => (
+                    <th key={h} className="table-header">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
                 {filtered.map(leave => (
-                  <tr key={leave._id} className="border-t border-gray-50 hover:bg-gray-50 transition">
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-2">
-                        <Avatar name={leave.employee?.name} size="sm" />
-                        <span className="font-medium text-gray-800 text-sm">{leave.employee?.name}</span>
+                  <tr key={leave._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition">
+                    <td className="table-cell">
+                      <div className="flex items-center gap-3">
+                        <Avatar name={leave.employee?.name} email={leave.employee?.email} src={leave.employee?.profilePic} size="sm" className="shadow-sm border-2 border-white dark:border-slate-800" />
+                        <span className="font-bold text-slate-800 dark:text-slate-200">{leave.employee?.name}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3 text-gray-500">{leave.employee?.department}</td>
-                    <td className="px-5 py-3"><LeaveTypeBadge type={leave.leaveType} /></td>
-                    <td className="px-5 py-3 text-gray-600 whitespace-nowrap">{new Date(leave.startDate).toLocaleDateString('en-IN')}</td>
-                    <td className="px-5 py-3 text-gray-600 whitespace-nowrap">{new Date(leave.endDate).toLocaleDateString('en-IN')}</td>
-                    <td className="px-5 py-3 font-bold text-gray-800">{leave.totalDays}</td>
-                    <td className="px-5 py-3 text-gray-500 max-w-[180px] truncate" title={leave.reason}>{leave.reason}</td>
-                    <td className="px-5 py-3"><StatusBadge status={leave.status} /></td>
-                    <td className="px-5 py-3">
+                    <td className="table-cell text-slate-500 font-medium">{leave.employee?.department}</td>
+                    <td className="table-cell"><LeaveTypeBadge type={leave.leaveType} /></td>
+                    <td className="table-cell font-bold text-slate-600 dark:text-slate-400 text-xs">
+                      {new Date(leave.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} - {new Date(leave.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                    </td>
+                    <td className="table-cell font-black text-slate-800 dark:text-slate-100">{leave.totalDays}</td>
+                    <td className="table-cell text-slate-500 italic max-w-[180px] truncate" title={leave.reason}>{leave.reason}</td>
+                    <td className="table-cell"><StatusBadge status={leave.status} /></td>
+                    <td className="table-cell">
                       {leave.status === 'pending' ? (
                         <button
                           onClick={() => setSelected(leave)}
-                          className="bg-green-50 border border-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-100 transition"
+                          className="btn-primary px-3 py-1.5 !rounded-lg text-[10px]"
                         >
-                          Review
+                          Review Now
                         </button>
                       ) : (
-                        <span className="text-gray-400 text-xs">{leave.reviewedBy?.name || '—'}</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-600" />
+                          <span className="text-slate-400 dark:text-slate-500 font-bold text-[10px] uppercase">{leave.reviewedBy?.name?.split(' ')[0] || 'System'}</span>
+                        </div>
                       )}
                     </td>
                   </tr>

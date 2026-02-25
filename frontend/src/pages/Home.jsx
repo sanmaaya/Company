@@ -2,6 +2,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
+import Footer from '../components/layout/Footer';
+
 const Home = () => {
     const navigate = useNavigate();
 
@@ -17,8 +19,8 @@ const Home = () => {
         <div className="bg-brand-bg font-sans text-brand-text">
             {/* NAV */}
             <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-6 md:px-14 h-[68px] bg-white/90 backdrop-blur-xl border-b border-brand-border shadow-sm">
-                <div className="brand text-[1.35rem] font-extrabold tracking-tighter text-emerald-600 flex items-center gap-2">
-                    <div className="brand-dot"></div> LeaveSync
+                <div className="text-[1.35rem] font-extrabold tracking-tighter text-emerald-600 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-emerald-600 rounded-full shadow-lg shadow-emerald-200"></div> EmployeeSync
                 </div>
                 <ul className="hidden md:flex gap-8 list-none">
                     <li><a href="#features" className="text-brand-muted hover:text-emerald-600 font-medium text-sm transition-colors">Features</a></li>
@@ -49,10 +51,10 @@ const Home = () => {
                             Trusted by 5,000+ companies worldwide
                         </div>
                         <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.08] tracking-[-0.05em] mb-6 text-brand-text">
-                            Leave Management<br />Made <span className="text-emerald-600 relative">Effortless</span>
+                            Workforce Management<br />Made <span className="text-emerald-600 relative">Effortless</span>
                         </h1>
                         <p className="text-[1.05rem] text-brand-muted mb-9 leading-relaxed max-w-[440px] mx-auto lg:mx-0">
-                            Streamline leave requests, approvals, and tracking for your entire team — in one clean, modern platform built for today's HR.
+                            Empower your team with EmployeeSync. Streamline leave requests, approvals, and tracking for your entire workforce — in one modern platform.
                         </p>
                         <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                             <button onClick={() => navigate('/register')} className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base rounded-xl shadow-lg shadow-emerald-200 transition-all flex items-center gap-2">
@@ -160,16 +162,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* FOOTER */}
-            <footer className="bg-brand-text text-white/50 py-12 px-6 md:px-14 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="text-white font-syne font-extrabold text-lg">🌿 LeaveSync</div>
-                <p className="text-sm">© 2026 LeaveSync. Built for modern HR teams.</p>
-                <div className="flex gap-6 text-sm">
-                    <a href="#" className="hover:text-emerald-400 transition-colors">Privacy</a>
-                    <a href="#" className="hover:text-emerald-400 transition-colors">Terms</a>
-                    <a href="#" className="hover:text-emerald-400 transition-colors">Support</a>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };

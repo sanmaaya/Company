@@ -4,11 +4,12 @@ import { useToast } from '../../components/common/Toast';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { RoleBadge } from '../../components/common/StatusBadge';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
+import Avatar from '../../components/common/Avatar';
 
 const ROLES = ['employee', 'manager', 'admin'];
 
 const UserModal = ({ user, onClose, onSave }) => {
-  const [form, setForm] = useState(user || { name: '', email: '', password: '', role: 'employee', department: '', isActive: true });
+  const [form, setForm] = useState(user || { name: '', email: '', password: '', role: 'employee', title: '', department: '', isActive: true });
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const isEdit = !!user?._id;
@@ -36,39 +37,43 @@ const UserModal = ({ user, onClose, onSave }) => {
   const f = (field, val) => setForm({ ...form, [field]: val });
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg animate-fade-in">
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-          <h3 className="font-bold text-gray-800 text-lg">{isEdit ? 'Edit User' : 'Add New User'}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg animate-fade-in border border-white/10 dark:border-slate-800">
+        <div className="p-6 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center">
+          <h3 className="font-bold text-gray-800 dark:text-white text-lg">{isEdit ? 'Edit User' : 'Add New User'}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl leading-none">×</button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Full Name</label>
-              <input value={form.name} onChange={e => f('name', e.target.value)} required className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="John Doe" />
+              <label className="form-label">Full Name</label>
+              <input value={form.name} onChange={e => f('name', e.target.value)} required className="input" placeholder="John Doe" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Email</label>
-              <input value={form.email} onChange={e => f('email', e.target.value)} required type="email" disabled={isEdit} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-50" placeholder="user@company.com" />
+              <label className="form-label">Email</label>
+              <input value={form.email} onChange={e => f('email', e.target.value)} required type="email" disabled={isEdit} className="input disabled:opacity-50" placeholder="user@company.com" />
             </div>
           </div>
           {!isEdit && (
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Password</label>
-              <input value={form.password} onChange={e => f('password', e.target.value)} required type="password" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Min. 6 characters" />
+              <label className="form-label">Password</label>
+              <input value={form.password} onChange={e => f('password', e.target.value)} required type="password" className="input" placeholder="Min. 6 characters" />
             </div>
           )}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Role</label>
-              <select value={form.role} onChange={e => f('role', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+              <label className="form-label">Role</label>
+              <select value={form.role} onChange={e => f('role', e.target.value)} className="input">
                 {ROLES.map(r => <option key={r} value={r} className="capitalize">{r.charAt(0).toUpperCase() + r.slice(1)}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">Department</label>
-              <input value={form.department} onChange={e => f('department', e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Engineering" />
+              <label className="form-label">Job Title</label>
+              <input value={form.title} onChange={e => f('title', e.target.value)} className="input" placeholder="e.g. Senior Developer" />
+            </div>
+            <div>
+              <label className="form-label">Department</label>
+              <input value={form.department} onChange={e => f('department', e.target.value)} className="input" placeholder="Engineering" />
             </div>
           </div>
           {isEdit && (
@@ -77,9 +82,9 @@ const UserModal = ({ user, onClose, onSave }) => {
               <label htmlFor="active" className="text-sm text-gray-700 font-medium">Active Account</label>
             </div>
           )}
-          <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onClose} className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-50">Cancel</button>
-            <button type="submit" disabled={loading} className="flex-1 bg-green-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-green-700 disabled:opacity-60 flex items-center justify-center gap-2">
+          <div className="flex gap-3 pt-4">
+            <button type="button" onClick={onClose} className="btn-secondary flex-1">Cancel</button>
+            <button type="submit" disabled={loading} className="btn-primary flex-1">
               {loading && <LoadingSpinner size="sm" />}
               {loading ? 'Saving...' : isEdit ? 'Save Changes' : 'Create User'}
             </button>
@@ -143,15 +148,15 @@ const AdminUsers = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {[
-          { label: 'Total Users', val: stats.total, icon: '👥', color: 'border-gray-100' },
-          { label: 'Admins', val: stats.admin, icon: '🛡️', color: 'border-purple-100' },
-          { label: 'Managers', val: stats.manager, icon: '👔', color: 'border-blue-100' },
-          { label: 'Employees', val: stats.employee, icon: '👤', color: 'border-green-100' }
+          { label: 'Total Users', val: stats.total, icon: '👥', color: 'border-gray-100 dark:border-slate-800' },
+          { label: 'Admins', val: stats.admin, icon: '🛡️', color: 'border-purple-100 dark:border-purple-900/40' },
+          { label: 'Managers', val: stats.manager, icon: '👔', color: 'border-blue-100 dark:border-blue-900/40' },
+          { label: 'Employees', val: stats.employee, icon: '👤', color: 'border-green-100 dark:border-green-900/40' }
         ].map(s => (
-          <div key={s.label} className={`bg-white rounded-xl border shadow-sm p-4 ${s.color}`}>
+          <div key={s.label} className={`bg-white dark:bg-slate-900 rounded-xl border shadow-sm p-4 ${s.color}`}>
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold text-gray-800">{s.val}</p>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white">{s.val}</p>
                 <p className="text-xs text-gray-500 font-medium mt-0.5">{s.label}</p>
               </div>
               <span className="text-2xl">{s.icon}</span>
@@ -160,20 +165,20 @@ const AdminUsers = () => {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm">
-        <div className="p-5 border-b border-gray-100 flex flex-wrap items-center gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-100 dark:border-slate-800 shadow-sm transition-colors duration-300">
+        <div className="p-5 border-b border-gray-100 dark:border-slate-800 flex flex-wrap items-center gap-3">
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search by name or email..."
-            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500"
           />
           <div className="flex gap-2">
             {['all', 'admin', 'manager', 'employee'].map(r => (
-              <button key={r} onClick={() => setRoleFilter(r)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${roleFilter === r ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>{r}</button>
+              <button key={r} onClick={() => setRoleFilter(r)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${roleFilter === r ? 'bg-green-600 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700'}`}>{r}</button>
             ))}
           </div>
-          <button onClick={() => setModal('create')} className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-1">
+          <button onClick={() => setModal('create')} className="btn-primary px-5 whitespace-nowrap">
             + Add User
           </button>
         </div>
@@ -186,39 +191,41 @@ const AdminUsers = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-left">
-                  {['User', 'Email', 'Role', 'Department', 'Leave Balance', 'Status', 'Joined', 'Actions'].map(h => (
-                    <th key={h} className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">{h}</th>
+                <tr>
+                  {['User', 'Email', 'Role', 'Title', 'Department', 'Leave Balance', 'Status', 'Actions'].map(h => (
+                    <th key={h} className="table-header">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
                 {filtered.map(user => (
-                  <tr key={user._id} className="border-t border-gray-50 hover:bg-gray-50 transition">
-                    <td className="px-5 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                          {user.name?.charAt(0)?.toUpperCase()}
-                        </div>
-                        <span className="font-medium text-gray-800">{user.name}</span>
+                  <tr key={user._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition">
+                    <td className="table-cell">
+                      <div className="flex items-center gap-3">
+                        <Avatar name={user.name} email={user.email} src={user.profilePic} size="sm" className="shadow-sm border-2 border-white dark:border-slate-800" />
+                        <span className="font-bold text-slate-800 dark:text-slate-200">{user.name}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3 text-gray-500">{user.email}</td>
-                    <td className="px-5 py-3"><RoleBadge role={user.role} /></td>
-                    <td className="px-5 py-3 text-gray-500">{user.department || '—'}</td>
-                    <td className="px-5 py-3 text-xs text-gray-500">
-                      C:{user.leaveBalance?.casual} S:{user.leaveBalance?.sick} E:{user.leaveBalance?.earned}
+                    <td className="table-cell text-slate-500 font-medium">{user.email}</td>
+                    <td className="table-cell"><RoleBadge role={user.role} /></td>
+                    <td className="table-cell text-slate-500 font-bold text-xs uppercase tracking-tight">{user.title || '—'}</td>
+                    <td className="table-cell text-slate-500 font-medium">{user.department || '—'}</td>
+                    <td className="table-cell">
+                      <div className="flex gap-2">
+                        {['casual', 'sick', 'earned'].map(t => (
+                          <span key={t} className="text-[10px] font-bold px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 rounded uppercase">{t[0]}:{user.leaveBalance?.[t]}</span>
+                        ))}
+                      </div>
                     </td>
-                    <td className="px-5 py-3">
-                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${user.isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                    <td className="table-cell">
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${user.isActive ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'}`}>
                         {user.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-gray-400 whitespace-nowrap text-xs">{new Date(user.createdAt).toLocaleDateString('en-IN')}</td>
-                    <td className="px-5 py-3">
-                      <div className="flex gap-2">
-                        <button onClick={() => setModal(user)} className="text-green-600 hover:text-green-800 text-xs font-semibold">Edit</button>
-                        <button onClick={() => handleDelete(user._id)} className="text-red-500 hover:text-red-700 text-xs font-semibold">Delete</button>
+                    <td className="table-cell">
+                      <div className="flex gap-4">
+                        <button onClick={() => setModal(user)} className="text-emerald-600 dark:text-emerald-400 font-extrabold hover:underline">Edit</button>
+                        <button onClick={() => handleDelete(user._id)} className="text-rose-500 hover:text-rose-700 font-extrabold hover:underline">Delete</button>
                       </div>
                     </td>
                   </tr>

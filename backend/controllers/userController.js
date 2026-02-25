@@ -64,14 +64,14 @@ const createUser = async (req, res) => {
       return res.status(400).json({ success: false, errors: errors.array() });
     }
 
-    const { name, email, password, role, department, managerId } = req.body;
+    const { name, email, password, role, title, department, managerId } = req.body;
 
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ success: false, message: 'Email already registered.' });
     }
 
-    const user = await User.create({ name, email, password, role, department, managerId });
+    const user = await User.create({ name, email, password, role, title, department, managerId });
 
     res.status(201).json({ success: true, message: 'User created successfully.', user });
   } catch (error) {
@@ -84,11 +84,11 @@ const createUser = async (req, res) => {
 // @access  Private (Admin)
 const updateUser = async (req, res) => {
   try {
-    const { name, role, department, managerId, isActive, leaveBalance } = req.body;
+    const { name, role, title, department, managerId, isActive, leaveBalance } = req.body;
 
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { name, role, department, managerId, isActive, leaveBalance },
+      { name, role, title, department, managerId, isActive, leaveBalance },
       { new: true, runValidators: true }
     );
 

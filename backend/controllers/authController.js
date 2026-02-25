@@ -48,6 +48,8 @@ const register = async (req, res) => {
         email: user.email,
         role: user.role,
         department: user.department,
+        title: user.title,
+        profilePic: user.profilePic,
         leaveBalance: user.leaveBalance
       }
     });
@@ -94,6 +96,8 @@ const login = async (req, res) => {
         email: user.email,
         role: user.role,
         department: user.department,
+        title: user.title,
+        profilePic: user.profilePic,
         leaveBalance: user.leaveBalance
       }
     });
@@ -119,10 +123,10 @@ const getMe = async (req, res) => {
 // @access  Private
 const updateProfile = async (req, res) => {
   try {
-    const { name, department } = req.body;
+    const { name, title, department, profilePic } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, department },
+      { name, title, department, profilePic },
       { new: true, runValidators: true }
     );
     res.json({ success: true, message: 'Profile updated.', user });

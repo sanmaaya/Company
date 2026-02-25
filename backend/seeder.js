@@ -7,397 +7,207 @@ dotenv.config();
 const User = require('./models/User');
 const Leave = require('./models/Leave');
 
-// ─────────────────────────────────────────────────────────────
-//  SEED USERS  (Admin · HR Managers · Dept Managers · Employees)
-// ─────────────────────────────────────────────────────────────
+// Connect to DB first to ensure we can hash passwords (if necessary) or just use the model
+const MONGODB_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/employeesync';
+
+const avatars = {
+  admin: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop',
+  meera: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+  priya: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop',
+  rahul: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop',
+  dev: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
+  sneha: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop',
+  vikram: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
+  anita: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop',
+  karan: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop'
+};
+
 const seedUsers = [
-  // ── ADMIN ──────────────────────────────────────────────────
   {
     name: 'Admin User',
-    email: 'admin@leavesync.com',
+    email: 'admin@employeesync.com',
     password: 'admin123',
     role: 'admin',
     department: 'Management',
+    profilePic: avatars.admin,
     leaveBalance: { casual: 15, sick: 12, earned: 20, unpaid: 0 },
+    _ref: 'admin'
   },
-
-  // ── HR MANAGERS ────────────────────────────────────────────
   {
     name: 'Meera Iyer',
-    email: 'hr@leavesync.com',
-    password: 'hr123456',
+    email: 'hr@employeesync.com',
+    password: 'password123',
     role: 'manager',
     department: 'Human Resources',
+    profilePic: avatars.meera,
     leaveBalance: { casual: 12, sick: 10, earned: 15, unpaid: 0 },
-    _ref: 'meera',
+    _ref: 'meera'
   },
-  {
-    name: 'Rohan Kapoor',
-    email: 'hr2@leavesync.com',
-    password: 'hr123456',
-    role: 'manager',
-    department: 'Human Resources',
-    leaveBalance: { casual: 12, sick: 10, earned: 15, unpaid: 0 },
-    _ref: 'rohan',
-  },
-
-  // ── DEPARTMENT MANAGERS ────────────────────────────────────
   {
     name: 'Priya Sharma',
-    email: 'manager@leavesync.com',
-    password: 'manager123',
+    email: 'manager@employeesync.com',
+    password: 'password123',
     role: 'manager',
     department: 'Engineering',
+    profilePic: avatars.priya,
     leaveBalance: { casual: 12, sick: 10, earned: 15, unpaid: 0 },
-    _ref: 'priya',
+    _ref: 'priya'
   },
-  {
-    name: 'Arjun Nair',
-    email: 'manager2@leavesync.com',
-    password: 'manager123',
-    role: 'manager',
-    department: 'Sales',
-    leaveBalance: { casual: 12, sick: 10, earned: 15, unpaid: 0 },
-    _ref: 'arjun',
-  },
-
-  // ── EMPLOYEES (Engineering) ─────────────────────────────────
   {
     name: 'Rahul Mehta',
-    email: 'employee@leavesync.com',
-    password: 'employee123',
+    email: 'employee@employeesync.com',
+    password: 'password123',
     role: 'employee',
     department: 'Engineering',
+    profilePic: avatars.rahul,
     leaveBalance: { casual: 10, sick: 8, earned: 12, unpaid: 0 },
     _ref: 'rahul',
-    _managerId: 'meera',   // all employees report to HR manager
+    _managerId: 'priya'
   },
   {
     name: 'Dev Patel',
-    email: 'dev@leavesync.com',
+    email: 'dev@employeesync.com',
     password: 'password123',
     role: 'employee',
     department: 'Engineering',
+    profilePic: avatars.dev,
     leaveBalance: { casual: 8, sick: 6, earned: 10, unpaid: 0 },
     _ref: 'dev',
-    _managerId: 'meera',
+    _managerId: 'priya'
   },
-  {
-    name: 'Siddharth Rao',
-    email: 'sid@leavesync.com',
-    password: 'password123',
-    role: 'employee',
-    department: 'Engineering',
-    leaveBalance: { casual: 9, sick: 7, earned: 11, unpaid: 0 },
-    _ref: 'sid',
-    _managerId: 'meera',
-  },
-
-  // ── EMPLOYEES (HR Dept) ──────────────────────────────────────
-  {
-    name: 'Anita Roy',
-    email: 'anita@leavesync.com',
-    password: 'password123',
-    role: 'employee',
-    department: 'Human Resources',
-    leaveBalance: { casual: 10, sick: 8, earned: 12, unpaid: 0 },
-    _ref: 'anita',
-    _managerId: 'meera',
-  },
-  {
-    name: 'Pooja Krishnan',
-    email: 'pooja@leavesync.com',
-    password: 'password123',
-    role: 'employee',
-    department: 'Human Resources',
-    leaveBalance: { casual: 10, sick: 9, earned: 13, unpaid: 0 },
-    _ref: 'pooja',
-    _managerId: 'meera',
-  },
-
-  // ── EMPLOYEES (Design) ───────────────────────────────────────
   {
     name: 'Sneha Verma',
-    email: 'sneha@leavesync.com',
+    email: 'sneha@employeesync.com',
     password: 'password123',
     role: 'employee',
     department: 'Design',
+    profilePic: avatars.sneha,
     leaveBalance: { casual: 10, sick: 9, earned: 12, unpaid: 0 },
     _ref: 'sneha',
-    _managerId: 'meera',
+    _managerId: 'meera'
   },
   {
     name: 'Vikram Desai',
-    email: 'vikram@leavesync.com',
+    email: 'vikram@employeesync.com',
     password: 'password123',
     role: 'employee',
     department: 'Design',
+    profilePic: avatars.vikram,
     leaveBalance: { casual: 9, sick: 8, earned: 11, unpaid: 0 },
     _ref: 'vikram',
-    _managerId: 'meera',
+    _managerId: 'meera'
   },
-
-  // ── EMPLOYEES (Sales) ────────────────────────────────────────
+  {
+    name: 'Anita Roy',
+    email: 'anita@employeesync.com',
+    password: 'password123',
+    role: 'employee',
+    department: 'Human Resources',
+    profilePic: avatars.anita,
+    leaveBalance: { casual: 10, sick: 8, earned: 12, unpaid: 0 },
+    _ref: 'anita',
+    _managerId: 'meera'
+  },
   {
     name: 'Karan Singh',
-    email: 'karan@leavesync.com',
+    email: 'karan@employeesync.com',
     password: 'password123',
     role: 'employee',
     department: 'Sales',
+    profilePic: avatars.karan,
     leaveBalance: { casual: 9, sick: 7, earned: 11, unpaid: 0 },
     _ref: 'karan',
-    _managerId: 'meera',
-  },
-  {
-    name: 'Nisha Agarwal',
-    email: 'nisha@leavesync.com',
-    password: 'password123',
-    role: 'employee',
-    department: 'Sales',
-    leaveBalance: { casual: 10, sick: 8, earned: 12, unpaid: 0 },
-    _ref: 'nisha',
-    _managerId: 'meera',
-  },
+    _managerId: 'admin'
+  }
 ];
 
-// ─────────────────────────────────────────────────────────────
-//  MAIN SEED FUNCTION
-// ─────────────────────────────────────────────────────────────
 const seed = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(MONGODB_URI);
     console.log('\n🔌 Connected to MongoDB...');
 
-    // Clear existing data
     await User.deleteMany({});
     await Leave.deleteMany({});
     console.log('🗑️  Cleared existing data...');
 
-    // Extract _ref and _managerId before inserting (not real schema fields)
-    const refMap = {};
-    const managerRefMap = {};
-    const cleanUsers = seedUsers.map(u => {
-      const { _ref, _managerId, ...rest } = u;
-      if (_ref) refMap[_ref] = null;
-      if (_ref && _managerId) managerRefMap[_ref] = _managerId;
-      return rest;
-    });
-
-    // Create users (pre-save hook hashes passwords automatically)
-    const created = await User.create(cleanUsers);
-    console.log('✅ Users seeded:', created.map(u => `${u.name} (${u.role})`).join(', '));
-
-    // Build a ref → userId lookup
     const lookup = {};
-    seedUsers.forEach((u, i) => {
-      if (u._ref) lookup[u._ref] = created[i]._id;
-    });
+    const createdUsers = [];
 
-    // Assign managerId to employees
-    const updatePromises = [];
-    seedUsers.forEach((u, i) => {
+    // Create users one by one to ensure middleware runs (hashing)
+    for (const uData of seedUsers) {
+      const { _ref, _managerId, ...rest } = uData;
+      const user = new User(rest);
+      const saved = await user.save();
+      lookup[_ref] = saved._id;
+      createdUsers.push({ saved, _ref, _managerId });
+    }
+
+    // Set Manager IDs
+    for (const u of createdUsers) {
       if (u._managerId) {
-        updatePromises.push(
-          User.findByIdAndUpdate(created[i]._id, { managerId: lookup[u._managerId] })
-        );
+        await User.findByIdAndUpdate(u.saved._id, { managerId: lookup[u._managerId] });
       }
-    });
-    await Promise.all(updatePromises);
-    console.log('✅ Manager assignments set');
+    }
+    console.log('✅ Users & Managers seeded.');
 
-    // ── SAMPLE LEAVE REQUESTS ─────────────────────────────────
-    // Helper
-    const id = (ref) => lookup[ref];
-
+    // Sample Leaves
+    const today = new Date();
     const leaves = [
-      // ── RAHUL (Engineering · reports to Meera) ──────────────
       {
-        employee: id('rahul'), leaveType: 'earned',
-        startDate: new Date('2025-04-01'), endDate: new Date('2025-04-05'),
-        reason: 'Annual vacation with family.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Approved. Well deserved rest!',
-        reviewedAt: new Date('2025-03-28'), totalDays: 5,
+        employee: lookup['rahul'], leaveType: 'earned',
+        startDate: new Date(today.getTime() + 86400000 * 2),
+        endDate: new Date(today.getTime() + 86400000 * 5),
+        reason: 'Family vacation to mountains', status: 'pending', totalDays: 3
       },
       {
-        employee: id('rahul'), leaveType: 'casual',
-        startDate: new Date('2025-05-10'), endDate: new Date('2025-05-10'),
-        reason: 'Personal work and family commitment.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Approved. Enjoy your day off.',
-        reviewedAt: new Date('2025-05-09'), totalDays: 1,
+        employee: lookup['dev'], leaveType: 'sick',
+        startDate: new Date(today.getTime() - 86400000 * 3),
+        endDate: new Date(today.getTime() - 86400000 * 1),
+        reason: 'Recovering from viral fever', status: 'approved',
+        reviewedBy: lookup['priya'], reviewComment: 'Get well soon!',
+        reviewedAt: new Date(), totalDays: 2
       },
       {
-        employee: id('rahul'), leaveType: 'sick',
-        startDate: new Date('2025-06-23'), endDate: new Date('2025-06-25'),
-        reason: 'High fever and doctor advised rest for 3 days.', status: 'pending', totalDays: 3,
+        employee: lookup['sneha'], leaveType: 'casual',
+        startDate: new Date(today.getTime() + 86400000),
+        endDate: new Date(today.getTime() + 86400000),
+        reason: 'Personal errands', status: 'pending', totalDays: 1
       },
       {
-        employee: id('rahul'), leaveType: 'unpaid',
-        startDate: new Date('2025-07-14'), endDate: new Date('2025-07-18'),
-        reason: 'Personal extended travel.', status: 'rejected',
-        reviewedBy: id('meera'), reviewComment: 'Project deadline conflicts. Not approved.',
-        reviewedAt: new Date('2025-07-10'), totalDays: 5,
-      },
-
-      // ── DEV (Engineering · reports to Meera) ─────────────────
-      {
-        employee: id('dev'), leaveType: 'earned',
-        startDate: new Date('2025-03-15'), endDate: new Date('2025-03-20'),
-        reason: 'Wedding ceremony in family.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Congratulations! Approved.',
-        reviewedAt: new Date('2025-03-10'), totalDays: 6,
+        employee: lookup['vikram'], leaveType: 'earned',
+        startDate: new Date(today.getTime() + 86400000 * 10),
+        endDate: new Date(today.getTime() + 86400000 * 15),
+        reason: 'Sibling wedding', status: 'pending', totalDays: 5
       },
       {
-        employee: id('dev'), leaveType: 'sick',
-        startDate: new Date('2025-07-08'), endDate: new Date('2025-07-09'),
-        reason: 'Stomach infection, advised rest by doctor.', status: 'pending', totalDays: 2,
+        employee: lookup['anita'], leaveType: 'sick',
+        startDate: new Date(today.getTime()),
+        endDate: new Date(today.getTime() + 86400000),
+        reason: 'Heavy migraine', status: 'approved',
+        reviewedBy: lookup['meera'], reviewComment: 'Take complete rest.',
+        reviewedAt: new Date(), totalDays: 2
       },
       {
-        employee: id('dev'), leaveType: 'casual',
-        startDate: new Date('2025-08-20'), endDate: new Date('2025-08-21'),
-        reason: 'Moving to new apartment.', status: 'pending', totalDays: 2,
-      },
-
-      // ── ANITA (HR Dept · reports to Meera) ──────────────────
-      {
-        employee: id('anita'), leaveType: 'sick',
-        startDate: new Date('2025-06-01'), endDate: new Date('2025-06-02'),
-        reason: 'Migraine attack. Doctor consultation needed.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Take care. Approved.',
-        reviewedAt: new Date('2025-05-31'), totalDays: 2,
-      },
-      {
-        employee: id('anita'), leaveType: 'casual',
-        startDate: new Date('2025-07-20'), endDate: new Date('2025-07-20'),
-        reason: 'Bank work and personal errands.', status: 'pending', totalDays: 1,
-      },
-      {
-        employee: id('anita'), leaveType: 'earned',
-        startDate: new Date('2025-09-10'), endDate: new Date('2025-09-15'),
-        reason: 'Planned family trip to Goa.', status: 'pending', totalDays: 6,
-      },
-
-      // ── POOJA (HR Dept · reports to Meera) ──────────────────
-      {
-        employee: id('pooja'), leaveType: 'casual',
-        startDate: new Date('2025-05-22'), endDate: new Date('2025-05-22'),
-        reason: 'Doctor appointment and health checkup.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Approved. Take care!',
-        reviewedAt: new Date('2025-05-21'), totalDays: 1,
-      },
-      {
-        employee: id('pooja'), leaveType: 'earned',
-        startDate: new Date('2025-08-01'), endDate: new Date('2025-08-05'),
-        reason: 'Annual leave for personal travel.', status: 'pending', totalDays: 5,
-      },
-
-      // ── SIDDHARTH (Engineering · reports to Priya) ───────────
-      {
-        employee: id('sid'), leaveType: 'sick',
-        startDate: new Date('2025-06-10'), endDate: new Date('2025-06-11'),
-        reason: 'Cold and flu, doctor rest advised.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Get well soon!',
-        reviewedAt: new Date('2025-06-09'), totalDays: 2,
-      },
-      {
-        employee: id('sid'), leaveType: 'casual',
-        startDate: new Date('2025-07-25'), endDate: new Date('2025-07-25'),
-        reason: "Sibling's graduation ceremony.", status: 'pending', totalDays: 1,
-      },
-
-      // ── SNEHA (Design · reports to Meera/HR) ─────────────────
-      {
-        employee: id('sneha'), leaveType: 'casual',
-        startDate: new Date('2025-06-12'), endDate: new Date('2025-06-13'),
-        reason: 'Home renovation work scheduled.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Approved, enjoy!',
-        reviewedAt: new Date('2025-06-10'), totalDays: 2,
-      },
-      {
-        employee: id('sneha'), leaveType: 'earned',
-        startDate: new Date('2025-08-05'), endDate: new Date('2025-08-10'),
-        reason: 'Planned international trip.', status: 'pending', totalDays: 6,
-      },
-
-      // ── VIKRAM (Design · reports to Meera/HR) ────────────────
-      {
-        employee: id('vikram'), leaveType: 'earned',
-        startDate: new Date('2025-07-01'), endDate: new Date('2025-07-05'),
-        reason: 'Parents anniversary family trip.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Enjoy the trip!',
-        reviewedAt: new Date('2025-06-28'), totalDays: 5,
-      },
-      {
-        employee: id('vikram'), leaveType: 'sick',
-        startDate: new Date('2025-08-18'), endDate: new Date('2025-08-19'),
-        reason: 'Back pain due to long working hours.', status: 'pending', totalDays: 2,
-      },
-
-      // ── KARAN (Sales · reports to Meera/HR) ──────────────────
-      {
-        employee: id('karan'), leaveType: 'casual',
-        startDate: new Date('2025-05-28'), endDate: new Date('2025-05-29'),
-        reason: 'Personal travel plans.', status: 'rejected',
-        reviewedBy: id('meera'), reviewComment: 'Quarter-end review week – not approved.',
-        reviewedAt: new Date('2025-05-25'), totalDays: 2,
-      },
-      {
-        employee: id('karan'), leaveType: 'sick',
-        startDate: new Date('2025-07-02'), endDate: new Date('2025-07-03'),
-        reason: 'Viral fever, rest recommended.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Approved. Get well soon.',
-        reviewedAt: new Date('2025-07-01'), totalDays: 2,
-      },
-      {
-        employee: id('karan'), leaveType: 'earned',
-        startDate: new Date('2025-09-01'), endDate: new Date('2025-09-05'),
-        reason: 'Wedding celebration in hometown.', status: 'pending', totalDays: 5,
-      },
-
-      // ── NISHA (Sales · reports to Meera/HR) ──────────────────
-      {
-        employee: id('nisha'), leaveType: 'casual',
-        startDate: new Date('2025-06-20'), endDate: new Date('2025-06-20'),
-        reason: 'Child school function attendance.', status: 'approved',
-        reviewedBy: id('meera'), reviewComment: 'Approved!',
-        reviewedAt: new Date('2025-06-19'), totalDays: 1,
-      },
-      {
-        employee: id('nisha'), leaveType: 'earned',
-        startDate: new Date('2025-08-12'), endDate: new Date('2025-08-16'),
-        reason: 'Anniversary trip with family.', status: 'pending', totalDays: 5,
-      },
+        employee: lookup['karan'], leaveType: 'casual',
+        startDate: new Date(today.getTime() + 86400000 * 4),
+        endDate: new Date(today.getTime() + 86400000 * 4),
+        reason: 'Aadhaar card update work', status: 'pending', totalDays: 1
+      }
     ];
 
     await Leave.create(leaves);
-    console.log(`✅ ${leaves.length} leave records seeded`);
+    console.log('✅ Sample leaves seeded.');
 
-    // ── PRINT CREDENTIALS TABLE ──────────────────────────────
-    console.log('\n╔══════════════════════════════════════════════════════════════╗');
-    console.log('║               🔑  DEFAULT LOGIN CREDENTIALS                ║');
-    console.log('╠═══════════════════╦══════════════════════════╦═════════════╣');
-    console.log('║ Role              ║ Email                    ║ Password    ║');
-    console.log('╠═══════════════════╬══════════════════════════╬═════════════╣');
-    console.log('║ Admin             ║ admin@leavesync.com      ║ admin123    ║');
-    console.log('╠═══════════════════╬══════════════════════════╬═════════════╣');
-    console.log('║ HR Manager        ║ hr@leavesync.com         ║ hr123456    ║');
-    console.log('║ HR Manager 2      ║ hr2@leavesync.com        ║ hr123456    ║');
-    console.log('║ Eng Manager       ║ manager@leavesync.com    ║ manager123  ║');
-    console.log('║ Sales Manager     ║ manager2@leavesync.com   ║ manager123  ║');
-    console.log('╠═══════════════════╬══════════════════════════╬═════════════╣');
-    console.log('║ Employee (Eng)    ║ employee@leavesync.com   ║ employee123 ║');
-    console.log('║ Employee (Eng)    ║ dev@leavesync.com        ║ password123 ║');
-    console.log('║ Employee (Eng)    ║ sid@leavesync.com        ║ password123 ║');
-    console.log('║ Employee (HR)     ║ anita@leavesync.com      ║ password123 ║');
-    console.log('║ Employee (HR)     ║ pooja@leavesync.com      ║ password123 ║');
-    console.log('║ Employee (Design) ║ sneha@leavesync.com      ║ password123 ║');
-    console.log('║ Employee (Design) ║ vikram@leavesync.com     ║ password123 ║');
-    console.log('║ Employee (Sales)  ║ karan@leavesync.com      ║ password123 ║');
-    console.log('║ Employee (Sales)  ║ nisha@leavesync.com      ║ password123 ║');
-    console.log('╚═══════════════════╩══════════════════════════╩═════════════╝');
-    console.log('\n🎉 Database seeded successfully!\n');
+    console.log('\n🚀 SEEDING COMPLETE');
+    console.log('---------------------------');
+    console.log('Admin:    admin@employeesync.com / admin123');
+    console.log('Manager:  manager@employeesync.com / password123');
+    console.log('Employee: employee@employeesync.com / password123');
+    console.log('---------------------------\n');
+
     process.exit(0);
-  } catch (error) {
-    console.error('❌ Seeder error:', error);
+  } catch (err) {
+    console.error('❌ Error seeding:', err);
     process.exit(1);
   }
 };

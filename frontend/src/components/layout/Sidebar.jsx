@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { Menu, X, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { RoleBadge } from '../common/StatusBadge';
 import Avatar from '../common/Avatar';
@@ -16,7 +17,6 @@ const navItems = {
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
     { path: '/approvals', label: 'Approvals', icon: '✅' },
-    { path: '/team', label: 'My Team', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ],
   admin: [
@@ -28,7 +28,7 @@ const navItems = {
   ]
 };
 
-const Sidebar = () => {
+const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
@@ -40,83 +40,103 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className={`${collapsed ? 'w-16' : 'w-64'} min-h-screen bg-white border-r border-gray-100 flex flex-col transition-all duration-300 shadow-sm flex-shrink-0`}>
+    <>
+      {/* ── Mobile Overlay ────────────────────────── */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-[60] lg:hidden backdrop-blur-sm"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+      <aside className={`
+        fixed inset-y-0 left-0 z-[70] bg-white dark:bg-[#0f172a] border-r border-slate-100 dark:border-slate-800/60 flex flex-col transition-all duration-300 shadow-xl lg:shadow-none lg:sticky lg:top-0 h-screen
+        ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${collapsed ? 'lg:w-20' : 'lg:w-64 w-64'}
+      `}>
 
-      {/* ── Logo ─────────────────────────────── */}
-      <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-        {!collapsed && (
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🌿</span>
-            <span className="font-bold text-green-700 text-lg tracking-tight">LeaveSync</span>
-          </div>
-        )}
-        {collapsed && <span className="text-2xl mx-auto">🌿</span>}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition"
-        >
-          {collapsed ? '→' : '←'}
-        </button>
-      </div>
-
-      {/* ── Navigation ───────────────────────── */}
-      <nav className="flex-1 p-3 overflow-y-auto">
-        {!collapsed && (
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 mb-2 mt-1">
-            {user?.role === 'admin' ? 'Admin Panel' : user?.role === 'manager' ? 'HR Menu' : 'Employee Menu'}
-          </p>
-        )}
-        {items.map(item => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            end={item.path === '/employee'}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg mb-0.5 text-sm font-medium transition-all ${isActive
-                ? 'bg-green-50 text-green-700 border border-green-100 shadow-sm'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`
-            }
-            title={collapsed ? item.label : ''}
-          >
-            <span className="text-base flex-shrink-0">{item.icon}</span>
-            {!collapsed && <span>{item.label}</span>}
-          </NavLink>
-        ))}
-      </nav>
-
-      {/* ── User Profile ─────────────────────── */}
-      <div className="border-t border-gray-100">
-        {!collapsed ? (
-          <div className="p-4">
-            <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
-              <Avatar name={user?.name} email={user?.email} size="md" />
-              <div className="min-w-0 flex-1">
-                <p className="font-semibold text-gray-800 text-sm truncate leading-tight">{user?.name}</p>
-                <p className="text-gray-400 text-xs truncate">{user?.email}</p>
-                <div className="mt-1"><RoleBadge role={user?.role} /></div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="p-3 flex justify-center">
-            <Avatar name={user?.name} email={user?.email} size="md" />
-          </div>
-        )}
-
-        {/* ── Logout ───────────────────────── */}
-        <div className="px-3 pb-3">
+        {/* ── Logo & Toggle ────────────────────────── */}
+        <div className={`p-5 border-b border-slate-100 dark:border-slate-800/60 flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
           <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-50 transition-all"
-            title={collapsed ? 'Logout' : ''}
+            onClick={() => setCollapsed(!collapsed)}
+            className="flex items-center gap-3 hover:opacity-80 transition-all group"
           >
-            <span className="text-base flex-shrink-0">🚪</span>
-            {!collapsed && <span>Logout</span>}
+            <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm border border-emerald-100 dark:border-emerald-500/20">
+              <span className="text-xl">🌿</span>
+            </div>
+            {!collapsed && (
+              <span className="font-extrabold text-slate-800 dark:text-white text-lg tracking-tight">EmployeeSync</span>
+            )}
+          </button>
+
+          {/* Mobile Close Button */}
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="lg:hidden p-2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition"
+          >
+            <X size={20} />
           </button>
         </div>
-      </div>
-    </aside>
+
+        {/* ── Navigation ───────────────────────── */}
+        <nav className="flex-1 px-3 py-2 overflow-y-auto scrollbar-hide">
+          {!collapsed && (
+            <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest px-3 mb-2 mt-1">
+              {user?.role === 'admin' ? 'Admin Panel' : user?.role === 'manager' ? 'HR Menu' : 'Employee Menu'}
+            </p>
+          )}
+          {items.map(item => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === '/employee'}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-3 rounded-xl mb-1 text-sm font-semibold transition-all ${isActive
+                  ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/10 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'
+                }`
+              }
+              title={collapsed ? item.label : ''}
+            >
+              <span className="text-base flex-shrink-0">{item.icon}</span>
+              {!collapsed && <span>{item.label}</span>}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* ── User Profile & Logout ─────────────────────── */}
+        <div className="border-t border-slate-100 dark:border-slate-800/60 bg-white dark:bg-[#0f172a]">
+          {!collapsed ? (
+            <div className="p-4">
+              <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-3 border border-slate-100 dark:border-slate-700/50">
+                <Avatar name={user?.name} email={user?.email} src={user?.profilePic} size="md" className="border-2 border-white dark:border-slate-700 shadow-sm" />
+                <div className="min-w-0 flex-1">
+                  <p className="font-bold text-slate-800 dark:text-slate-200 text-xs truncate leading-tight">{user?.name}</p>
+                  <div className="mt-1"><RoleBadge role={user?.role} /></div>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 w-full px-4 py-3 mt-3 rounded-xl text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-all"
+              >
+                <LogOut size={14} className="flex-shrink-0" />
+                <span>Logout</span>
+              </button>
+            </div>
+          ) : (
+            <div className="p-3 space-y-4 flex flex-col items-center">
+              <Avatar name={user?.name} email={user?.email} src={user?.profilePic} size="md" className="border-2 border-white dark:border-slate-700 shadow-sm" />
+              <button
+                onClick={handleLogout}
+                className="p-3 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-all shadow-sm"
+                title="Logout"
+              >
+                <LogOut size={18} />
+              </button>
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 };
 

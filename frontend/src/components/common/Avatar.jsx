@@ -38,8 +38,8 @@ const sizes = {
 };
 
 // Avatar — shows real photo if available, otherwise colored initials
-const Avatar = ({ name = '', email = '', size = 'md', className = '' }) => {
-    const photo = AVATAR_PHOTOS[email];
+const Avatar = ({ name = '', email = '', src = '', size = 'md', className = '' }) => {
+    const photo = src || AVATAR_PHOTOS[email];
     const gradient = getGradient(name);
     const initials = name
         .split(' ')

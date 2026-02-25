@@ -27,8 +27,8 @@ io.on('connection', (socket) => {
   console.log('🟢 Socket connected:', socket.id);
 
   // User comes online
-  socket.on('user:online', ({ userId, name, role }) => {
-    onlineUsers[socket.id] = { userId, name, role };
+  socket.on('user:online', ({ userId, name, role, profilePic }) => {
+    onlineUsers[socket.id] = { userId, name, role, profilePic };
     io.emit('users:online', Object.values(onlineUsers));
   });
 
@@ -40,11 +40,12 @@ io.on('connection', (socket) => {
   });
 
   // Send a message
-  socket.on('message:send', ({ roomId, senderId, senderName, text }) => {
+  socket.on('message:send', ({ roomId, senderId, senderName, senderPic, text }) => {
     const msg = {
       id: Date.now(),
       senderId,
       senderName,
+      senderPic,
       text,
       time: new Date().toISOString()
     };
@@ -84,7 +85,7 @@ app.use('/api/leaves', require('./routes/leaveRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'LeaveSync API is running', sockets: Object.keys(onlineUsers).length });
+  res.json({ status: 'OK', message: 'EmployeeSync API is running', sockets: Object.keys(onlineUsers).length });
 });
 
 // Global error handler

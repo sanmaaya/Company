@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LeaveProvider } from './context/LeaveContext';
 import { ToastProvider } from './components/common/Toast';
+import { ThemeProvider } from './context/ThemeContext';
 
 // ── Auth Pages ──────────────────────────────────────────────
 import LoginPage from './pages/Login';
@@ -78,7 +79,7 @@ const AppRoutes = () => (
 
     {/* Manager routes */}
     <Route path="/approvals" element={<ProtectedRoute roles={['manager', 'admin']}><Approvals /></ProtectedRoute>} />
-    <Route path="/team" element={<ProtectedRoute roles={['manager', 'admin']}><Team /></ProtectedRoute>} />
+    <Route path="/team" element={<ProtectedRoute roles={['admin']}><Team /></ProtectedRoute>} />
 
     {/* Admin routes */}
     <Route path="/admin/users" element={<ProtectedRoute roles={['admin']}><AdminUsers /></ProtectedRoute>} />
@@ -92,25 +93,27 @@ const AppRoutes = () => (
 // ── Root App ─────────────────────────────────────────────────
 const App = () => (
   <AuthProvider>
-    <Router>
-      <AppRoutes />
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3500,
-          style: {
-            background: '#fff',
-            color: '#111827',
-            fontSize: '14px',
-            borderRadius: '10px',
-            border: '1px solid #e5e7eb',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
-          },
-          success: { iconTheme: { primary: '#16a34a', secondary: '#fff' } },
-          error: { iconTheme: { primary: '#dc2626', secondary: '#fff' } },
-        }}
-      />
-    </Router>
+    <ThemeProvider>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <AppRoutes />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3500,
+            style: {
+              background: '#fff',
+              color: '#111827',
+              fontSize: '14px',
+              borderRadius: '10px',
+              border: '1px solid #e5e7eb',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+            },
+            success: { iconTheme: { primary: '#16a34a', secondary: '#fff' } },
+            error: { iconTheme: { primary: '#dc2626', secondary: '#fff' } },
+          }}
+        />
+      </Router>
+    </ThemeProvider>
   </AuthProvider>
 );
 

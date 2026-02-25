@@ -12,7 +12,7 @@ const createUserValidation = [
 ];
 
 router.get('/stats', protect, authorize('admin'), getUserStats);
-router.get('/', protect, authorize('admin', 'manager', 'employee'), getUsers);
+router.get('/', protect, authorize('admin', 'employee'), getUsers);
 router.get('/:id', protect, authorize('admin'), getUser);
 router.post('/', protect, authorize('admin'), createUserValidation, createUser);
 router.put('/:id', protect, authorize('admin'), updateUser);

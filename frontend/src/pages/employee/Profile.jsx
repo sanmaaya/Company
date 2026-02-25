@@ -8,9 +8,13 @@ import LoadingSpinner from '../../components/common/LoadingSpinner';
 import Avatar from '../../components/common/Avatar';
 
 const Profile = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUserContext } = useAuth();
   const { toast } = useToast();
-  const [form, setForm] = useState({ name: user?.name || '', department: user?.department || '' });
+  const [form, setForm] = useState({
+    name: user?.name || '',
+    department: user?.department || '',
+    profilePic: user?.profilePic || null
+  });
   const [loading, setLoading] = useState(false);
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
 
@@ -21,7 +25,7 @@ const Profile = () => {
     setLoading(true);
     try {
       const res = await api.put('/auth/profile', form);
-      updateUser(res.data.user);
+      updateUserContext(res.data.user);
       toast('Profile updated!', 'success');
     } catch (err) {
       toast(err.response?.data?.message || 'Update failed', 'error');
@@ -30,19 +34,41 @@ const Profile = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 1024 * 1024) { // 1MB limit for base64
+      toast('Photo must be less than 1MB', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm(prev => ({ ...prev, profilePic: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <DashboardLayout title="My Profile">
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-6 pb-12">
         {/* Profile Card */}
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-          <div className="flex items-center gap-5 mb-6 pb-6 border-b border-gray-100">
-            <Avatar name={user?.name} size="xl" />
+          <div className="flex items-center gap-6 mb-8 pb-8 border-b border-gray-100">
+            <div className="relative group">
+              <Avatar name={user?.name} src={form.profilePic} size="xl" className="ring-4 ring-emerald-50" />
+              <label className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-full text-white opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity text-xs font-bold uppercase tracking-tighter">
+                Change
+                <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+              </label>
+            </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-800">{user?.name}</h2>
               <p className="text-gray-500 text-sm">{user?.email}</p>
               <div className="flex items-center gap-2 mt-2">
                 <RoleBadge role={user?.role} />
-                <span className="text-xs text-gray-400">• {user?.department}</span>
+                <span className="text-xs text-gray-400 font-medium">• {user?.title || user?.department}</span>
               </div>
             </div>
           </div>
@@ -70,10 +96,12 @@ const Profile = () => {
               <input value={user?.email} disabled className="w-full px-4 py-2.5 rounded-lg border border-gray-100 text-sm bg-gray-50 text-gray-400" />
               <p className="text-xs text-gray-400 mt-1">Email cannot be changed</p>
             </div>
-            <button type="submit" disabled={loading} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition flex items-center gap-2 disabled:opacity-60">
-              {loading && <LoadingSpinner size="sm" />}
-              {loading ? 'Saving...' : 'Save Changes'}
-            </button>
+            <div className="pt-2">
+              <button type="submit" disabled={loading} className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-2.5 rounded-lg text-sm font-bold shadow-lg shadow-emerald-100 transition-all flex items-center gap-2 disabled:opacity-60">
+                {loading && <LoadingSpinner size="sm" />}
+                {loading ? 'Saving...' : 'Update Profile'}
+              </button>
+            </div>
           </form>
         </div>
 

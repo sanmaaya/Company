@@ -53,7 +53,7 @@ const applyLeave = async (req, res) => {
       reason
     });
 
-    await leave.populate('employee', 'name email department');
+    await leave.populate('employee', 'name email department profilePic');
 
     res.status(201).json({ success: true, message: 'Leave applied successfully.', leave });
   } catch (error) {
@@ -86,7 +86,7 @@ const getLeaves = async (req, res) => {
 
     const total = await Leave.countDocuments(query);
     const leaves = await Leave.find(query)
-      .populate('employee', 'name email department role')
+      .populate('employee', 'name email department role profilePic')
       .populate('reviewedBy', 'name email')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
@@ -108,7 +108,7 @@ const getLeaves = async (req, res) => {
 const getLeave = async (req, res) => {
   try {
     const leave = await Leave.findById(req.params.id)
-      .populate('employee', 'name email department')
+      .populate('employee', 'name email department profilePic')
       .populate('reviewedBy', 'name email');
 
     if (!leave) {
@@ -137,7 +137,7 @@ const reviewLeave = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Status must be approved or rejected.' });
     }
 
-    const leave = await Leave.findById(req.params.id).populate('employee');
+    const leave = await Leave.findById(req.params.id).populate('employee', 'name email department profilePic');
     if (!leave) {
       return res.status(404).json({ success: false, message: 'Leave not found.' });
     }
@@ -160,7 +160,7 @@ const reviewLeave = async (req, res) => {
       });
     }
 
-    await leave.populate('employee', 'name email department');
+    await leave.populate('employee', 'name email department profilePic');
     await leave.populate('reviewedBy', 'name email');
 
     res.json({ success: true, message: `Leave ${status} successfully.`, leave });
@@ -212,18 +212,24 @@ const getLeaveStats = async (req, res) => {
 
     const stats = await Leave.aggregate([
       { $match: matchQuery },
-      { $group: {
-        _id: '$status',
-        count: { $sum: 1 },
-        totalDays: { $sum: '$totalDays' }
-      }}
+      {
+        $group: {
+          _id: '$status',
+          count: { $sum: 1 },
+          totalDays: { $sum: '$totalDays' }
+        }
+      }
     ]);
 
-    const formatted = { pending: 0, approved: 0, rejected: 0, totalDays: 0 };
+    const formatted = { pending: 0, approved: 0, rejected: 0, totalDays: 0, totalUsers: 0 };
     stats.forEach(s => {
       formatted[s._id] = s.count;
       if (s._id === 'approved') formatted.totalDays = s.totalDays;
     });
+
+    if (req.user.role === 'admin' || req.user.role === 'manager') {
+      formatted.totalUsers = await User.countDocuments(req.user.role === 'manager' ? { managerId: req.user._id } : {});
+    }
 
     res.json({ success: true, stats: formatted });
   } catch (error) {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: require('path').resolve(__dirname, '../.env') });
 
 const User = require('../models/User');
 const Leave = require('../models/Leave');
@@ -14,29 +14,53 @@ const seedDB = async () => {
     await User.deleteMany({});
     await Leave.deleteMany({});
 
-    const hashedPass = await bcrypt.hash('password123', 12);
+    const pass = 'password123';
 
+    // Admins
     const admin = await User.create({
       name: 'Admin User',
       email: 'admin@leavesync.com',
-      password: hashedPass,
+      password: pass,
       role: 'admin',
-      department: 'HR'
+      title: 'Head of Administration',
+      department: 'Management'
     });
 
+    const meera = await User.create({
+      name: 'Meera Iyer',
+      email: 'meera@leavesync.com',
+      password: pass,
+      role: 'admin',
+      title: 'HR Director',
+      department: 'People & Culture'
+    });
+
+    // Managers
     const manager = await User.create({
       name: 'Riya Verma',
       email: 'manager@leavesync.com',
-      password: hashedPass,
+      password: pass,
       role: 'manager',
+      title: 'Engineering Manager',
       department: 'Engineering'
     });
 
+    const manager2 = await User.create({
+      name: 'Suresh Raina',
+      email: 'suresh@leavesync.com',
+      password: pass,
+      role: 'manager',
+      title: 'Marketing Manager',
+      department: 'Marketing'
+    });
+
+    // Employees
     const emp1 = await User.create({
       name: 'Amit Patel',
       email: 'employee@leavesync.com',
-      password: hashedPass,
+      password: pass,
       role: 'employee',
+      title: 'Senior Frontend Engineer',
       department: 'Engineering',
       managerId: manager._id
     });
@@ -44,13 +68,34 @@ const seedDB = async () => {
     const emp2 = await User.create({
       name: 'Priya Sharma',
       email: 'priya@leavesync.com',
-      password: hashedPass,
+      password: pass,
       role: 'employee',
+      title: 'Backend Developer',
       department: 'Engineering',
       managerId: manager._id
     });
 
-    // Sample leaves
+    const emp3 = await User.create({
+      name: 'Vikram Singh',
+      email: 'vikram@leavesync.com',
+      password: pass,
+      role: 'employee',
+      title: 'Digital Marketer',
+      department: 'Marketing',
+      managerId: manager2._id
+    });
+
+    const emp4 = await User.create({
+      name: 'Anjali Gupta',
+      email: 'anjali@leavesync.com',
+      password: pass,
+      role: 'employee',
+      title: 'HR Specialist',
+      department: 'People & Culture',
+      managerId: meera._id
+    });
+
+    // Sample leaves for testing
     await Leave.create([
       {
         employee: emp1._id,
@@ -58,38 +103,27 @@ const seedDB = async () => {
         startDate: new Date('2024-06-10'),
         endDate: new Date('2024-06-11'),
         totalDays: 2,
-        reason: 'Fever and cold',
+        reason: 'Severe fever and body ache',
         status: 'approved',
         reviewedBy: manager._id,
         reviewedAt: new Date()
       },
       {
-        employee: emp1._id,
+        employee: emp2._id,
         leaveType: 'casual',
         startDate: new Date('2024-07-05'),
         endDate: new Date('2024-07-05'),
         totalDays: 1,
-        reason: 'Personal work',
+        reason: 'Personal family emergency',
         status: 'pending'
-      },
-      {
-        employee: emp2._id,
-        leaveType: 'earned',
-        startDate: new Date('2024-06-20'),
-        endDate: new Date('2024-06-22'),
-        totalDays: 3,
-        reason: 'Family vacation',
-        status: 'approved',
-        reviewedBy: manager._id,
-        reviewedAt: new Date()
       }
     ]);
 
-    console.log('✅ Database seeded successfully!');
-    console.log('\n📋 Demo Credentials:');
-    console.log('Admin:    admin@leavesync.com    / password123');
-    console.log('Manager:  manager@leavesync.com  / password123');
-    console.log('Employee: employee@leavesync.com / password123');
+    console.log('✅ Database seeded successfully with Titles and Meera Iyer!');
+    console.log('\n📋 Login Credentials:');
+    console.log('Admin (Global): meera@leavesync.com / password123');
+    console.log('Manager (Eng):  manager@leavesync.com / password123');
+    console.log('Employee:       employee@leavesync.com / password123');
     process.exit(0);
   } catch (err) {
     console.error('Seed error:', err);
