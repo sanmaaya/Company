@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
     io.emit('users:online', Object.values(onlineUsers));
   });
 
-  // Join a room (direct message between two users)
+  // Join a room (direct message or group)
   socket.on('room:join', ({ roomId }) => {
     socket.join(roomId);
     // Send message history
@@ -43,6 +43,7 @@ io.on('connection', (socket) => {
   socket.on('message:send', ({ roomId, senderId, senderName, senderPic, text }) => {
     const msg = {
       id: Date.now(),
+      roomId, // Include roomId in message
       senderId,
       senderName,
       senderPic,
@@ -82,6 +83,8 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/leaves', require('./routes/leaveRoutes'));
+app.use('/api/projects', require('./routes/projectRoutes'));
+app.use('/api/chat', require('./routes/chatRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

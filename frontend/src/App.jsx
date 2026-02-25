@@ -13,17 +13,16 @@ import ForgotPasswordPage from './pages/ForgotPassword';
 import LandingPage from './pages/Home';
 import NotFound from './pages/NotFound';
 
-// ── Employee Pages ──────────────────────────────────────────
+// ── App Pages ───────────────────────────────────────────────
 import EmployeeDashboard from './pages/employee/Dashboard';
 import ApplyLeave from './pages/employee/ApplyLeave';
 import MyLeaves from './pages/employee/MyLeaves';
 import Profile from './pages/employee/Profile';
+import Projects from './pages/Projects';
 
-// ── Manager Pages ───────────────────────────────────────────
+// ── Manager/Admin Pages ─────────────────────────────────────
 import Approvals from './pages/manager/Approvals';
 import Team from './pages/manager/Team';
-
-// ── Admin Pages ─────────────────────────────────────────────
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminLeaves from './pages/admin/AdminLeaves';
 
@@ -57,7 +56,6 @@ const PublicRoute = ({ children }) => {
 const DashboardRedirect = () => {
   const { user } = useAuth();
   if (user?.role === 'admin') return <Navigate to="/admin/users" replace />;
-  // Managers and employees both see their personal dashboard first
   return <Navigate to="/employee" replace />;
 };
 
@@ -73,17 +71,16 @@ const AppRoutes = () => (
     {/* Smart redirect */}
     <Route path="/dashboard" element={<ProtectedRoute><DashboardRedirect /></ProtectedRoute>} />
 
-    {/* Employee routes */}
+    {/* Protected routes */}
     <Route path="/employee" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
     <Route path="/apply-leave" element={<ProtectedRoute><ApplyLeave /></ProtectedRoute>} />
     <Route path="/my-leaves" element={<ProtectedRoute><MyLeaves /></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+    <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
 
-    {/* Manager routes */}
+    {/* Manager/Admin routes */}
     <Route path="/approvals" element={<ProtectedRoute roles={['manager', 'admin']}><Approvals /></ProtectedRoute>} />
     <Route path="/team" element={<ProtectedRoute roles={['admin']}><Team /></ProtectedRoute>} />
-
-    {/* Admin routes */}
     <Route path="/admin/users" element={<ProtectedRoute roles={['admin']}><AdminUsers /></ProtectedRoute>} />
     <Route path="/admin/leaves" element={<ProtectedRoute roles={['admin']}><AdminLeaves /></ProtectedRoute>} />
 

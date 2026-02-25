@@ -66,27 +66,38 @@ const applyLeave = async (req, res) => {
 // @access  Private
 const getLeaves = async (req, res) => {
   try {
-    const { status, leaveType, page = 1, limit = 10 } = req.query;
+    const { status, leaveType, page = 1, limit = 10, startDate, endDate, date } = req.query;
     let query = {};
 
     // Role-based filtering
     if (req.user.role === 'employee') {
       query.employee = req.user._id;
     } else if (req.user.role === 'manager') {
-      // Managers see their own team's leaves
       const teamMembers = await User.find({ managerId: req.user._id }).select('_id');
       const teamIds = teamMembers.map(m => m._id);
-      teamIds.push(req.user._id); // Also include manager's own leaves
+      teamIds.push(req.user._id);
       query.employee = { $in: teamIds };
     }
-    // admin sees all
 
     if (status) query.status = status;
     if (leaveType) query.leaveType = leaveType;
 
+    // Date filtering
+    if (date) {
+      const d = new Date(date);
+      query.startDate = { $lte: d };
+      query.endDate = { $gte: d };
+    } else if (startDate && endDate) {
+      query.$or = [
+        { startDate: { $gte: new Date(startDate), $lte: new Date(endDate) } },
+        { endDate: { $gte: new Date(startDate), $lte: new Date(endDate) } },
+        { startDate: { $lte: new Date(startDate) }, endDate: { $gte: new Date(endDate) } }
+      ];
+    }
+
     const total = await Leave.countDocuments(query);
     const leaves = await Leave.find(query)
-      .populate('employee', 'name email department role profilePic')
+      .populate('employee', 'name email department role profilePic title')
       .populate('reviewedBy', 'name email')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
@@ -115,7 +126,6 @@ const getLeave = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Leave not found.' });
     }
 
-    // Authorization check
     if (req.user.role === 'employee' && leave.employee._id.toString() !== req.user._id.toString()) {
       return res.status(403).json({ success: false, message: 'Not authorized.' });
     }
@@ -146,14 +156,12 @@ const reviewLeave = async (req, res) => {
       return res.status(400).json({ success: false, message: 'This leave has already been reviewed.' });
     }
 
-    // Update leave status
     leave.status = status;
     leave.reviewedBy = req.user._id;
     leave.reviewedAt = new Date();
     leave.reviewComment = reviewComment || '';
     await leave.save();
 
-    // If approved, deduct from balance
     if (status === 'approved' && leave.leaveType !== 'unpaid') {
       await User.findByIdAndUpdate(leave.employee._id, {
         $inc: { [`leaveBalance.${leave.leaveType}`]: -leave.totalDays }

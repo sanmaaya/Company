@@ -8,12 +8,14 @@ import Avatar from '../common/Avatar';
 const navItems = {
   employee: [
     { path: '/employee', label: 'Dashboard', icon: '📊' },
+    { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ],
   manager: [
     { path: '/employee', label: 'Dashboard', icon: '📊' },
+    { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
     { path: '/approvals', label: 'Approvals', icon: '✅' },
@@ -21,6 +23,7 @@ const navItems = {
   ],
   admin: [
     { path: '/employee', label: 'Dashboard', icon: '📊' },
+    { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/admin/users', label: 'Manage Users', icon: '👥' },
     { path: '/admin/leaves', label: 'All Leaves', icon: '📋' },
     { path: '/approvals', label: 'Approvals', icon: '✅' },
