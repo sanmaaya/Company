@@ -73,7 +73,6 @@ const Dashboard = () => {
               </div>
             </div>
             <div>
-              <p className="text-emerald-100/60 font-bold uppercase tracking-[0.3em] text-[10px] mb-3 italic opacity-80">Autonomous Workforce OS</p>
               <h2 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter">
                 {user?.name?.split(' ')[0]}
               </h2>
@@ -92,9 +91,7 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* ── Main Dash Grid ─────────────────────────────────── */}
+      </div>  {/* ── Main Dash Grid ─────────────────────────────────── */}
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
 
         {/* Left 3 Cols: Stats & Calendar & Tasks */}
@@ -211,7 +208,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </DashboardLayout >
   );
 };
 

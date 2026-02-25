@@ -71,7 +71,7 @@ const seedDB = async () => {
     // ── EMPLOYEES ───────────────────────────────────────
     const employeeData = [
       { name: 'Amit Patel', email: 'employee@leavesync.com', phoneNumber: '5555555555', title: 'Senior Frontend Engineer', department: 'Engineering', managerId: riya._id, profilePic: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' },
-      { name: 'Priya Sharma', email: 'priya@leavesync.com', phoneNumber: '4444444444', title: 'Backend Developer', department: 'Engineering', managerId: riya._id, profilePic: 'https://images.unsplash.com/photo-1598550874175-4d0fe4a2c90b?auto=format&fit=crop&q=80&w=200' },
+      { name: 'Priya Sharma', email: 'priya@leavesync.com', phoneNumber: '4444444444', title: 'Backend Developer', department: 'Engineering', managerId: riya._id, profilePic: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200' },
       { name: 'Vikram Singh', email: 'vikram@leavesync.com', phoneNumber: '3333333333', title: 'Digital Marketer', department: 'Marketing', managerId: suresh._id, profilePic: 'https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&q=80&w=200' },
       { name: 'Anjali Gupta', email: 'anjali@leavesync.com', phoneNumber: '2222222222', title: 'UX Researcher', department: 'Engineering', managerId: riya._id, profilePic: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200' },
       { name: 'Zane Malik', email: 'zane@leavesync.com', phoneNumber: '1111111111', title: 'Growth Specialist', department: 'Marketing', managerId: suresh._id, profilePic: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200' },
@@ -97,11 +97,53 @@ const seedDB = async () => {
       members: [employees[0]._id, employees[1]._id, employees[3]._id, riya._id],
       createdBy: meera._id
     });
-
     // ── TASKS ───────────────────────────────────────────
     await Task.create([
-      { project: p1._id, title: 'Design Login Flow', assignedTo: employees[0]._id, deadline: new Date('2024-06-30'), priority: 'high', status: 'in-progress' },
-      { project: p1._id, title: 'Implement Auth API', assignedTo: employees[1]._id, deadline: new Date('2024-07-05'), priority: 'high', status: 'todo' }
+      { project: p1._id, title: 'Design Login Flow', description: 'Design UI in Figma', assignedTo: employees[0]._id, deadline: new Date('2024-06-30'), priority: 'high', status: 'in-progress' },
+      { project: p1._id, title: 'Implement Auth API', description: 'Build JWT integration', assignedTo: employees[1]._id, deadline: new Date('2024-07-05'), priority: 'high', status: 'todo' },
+      { project: p1._id, title: 'User Discovery Interviews', description: 'Talk to 5 potential users', assignedTo: employees[3]._id, deadline: new Date('2024-06-25'), priority: 'medium', status: 'completed' },
+      // New tasks
+      { project: p1._id, title: 'Backend Integration', description: 'Connect frontend with backend APIs', assignedTo: employees[6]._id, deadline: new Date('2024-07-15'), priority: 'high', status: 'todo' },
+      { project: p1._id, title: 'Setup CI/CD Pipeline', description: 'Deploy action via GitHub', assignedTo: employees[8]._id, deadline: new Date('2024-06-28'), priority: 'medium', status: 'todo' }
+    ]);
+
+    // ── LEAVES ──────────────────────────────────────────
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    await Leave.create([
+      {
+        employee: employees[0]._id,
+        leaveType: 'sick',
+        startDate: today,
+        endDate: tomorrow,
+        totalDays: 2,
+        reason: 'Severe flu',
+        status: 'approved',
+        reviewedBy: riya._id,
+        reviewedAt: today
+      },
+      {
+        employee: employees[2]._id,
+        leaveType: 'casual',
+        startDate: new Date(today.getTime() + 86400000 * 3),
+        endDate: new Date(today.getTime() + 86400000 * 5),
+        totalDays: 3,
+        reason: 'Family event',
+        status: 'approved',
+        reviewedBy: suresh._id,
+        reviewedAt: today
+      },
+      {
+        employee: employees[4]._id,
+        leaveType: 'earned',
+        startDate: today,
+        endDate: today,
+        totalDays: 1,
+        reason: 'Mental health day',
+        status: 'pending'
+      }
     ]);
 
     // ── GROUPS ──────────────────────────────────────────
