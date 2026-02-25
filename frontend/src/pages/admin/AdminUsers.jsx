@@ -9,7 +9,7 @@ import Avatar from '../../components/common/Avatar';
 const ROLES = ['employee', 'manager', 'admin'];
 
 const UserModal = ({ user, onClose, onSave }) => {
-  const [form, setForm] = useState(user || { name: '', email: '', password: '', role: 'employee', title: '', department: '', isActive: true });
+  const [form, setForm] = useState(user || { name: '', email: '', password: '', phoneNumber: '', role: 'employee', title: '', department: '', isActive: true });
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const isEdit = !!user?._id;
@@ -54,12 +54,18 @@ const UserModal = ({ user, onClose, onSave }) => {
               <input value={form.email} onChange={e => f('email', e.target.value)} required type="email" disabled={isEdit} className="input disabled:opacity-50" placeholder="user@company.com" />
             </div>
           </div>
-          {!isEdit && (
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="form-label">Password</label>
-              <input value={form.password} onChange={e => f('password', e.target.value)} required type="password" className="input" placeholder="Min. 6 characters" />
+              <label className="form-label">Phone Number</label>
+              <input value={form.phoneNumber} onChange={e => f('phoneNumber', e.target.value)} required className="input" placeholder="10-digit number" />
             </div>
-          )}
+            {!isEdit && (
+              <div>
+                <label className="form-label">Password</label>
+                <input value={form.password} onChange={e => f('password', e.target.value)} required type="password" className="input" placeholder="Min. 6 characters" />
+              </div>
+            )}
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="form-label">Role</label>
@@ -71,10 +77,10 @@ const UserModal = ({ user, onClose, onSave }) => {
               <label className="form-label">Job Title</label>
               <input value={form.title} onChange={e => f('title', e.target.value)} className="input" placeholder="e.g. Senior Developer" />
             </div>
-            <div>
-              <label className="form-label">Department</label>
-              <input value={form.department} onChange={e => f('department', e.target.value)} className="input" placeholder="Engineering" />
-            </div>
+          </div>
+          <div>
+            <label className="form-label">Department</label>
+            <input value={form.department} onChange={e => f('department', e.target.value)} className="input" placeholder="Engineering" />
           </div>
           {isEdit && (
             <div className="flex items-center gap-2">
@@ -206,7 +212,12 @@ const AdminUsers = () => {
                         <span className="font-bold text-slate-800 dark:text-slate-200">{user.name}</span>
                       </div>
                     </td>
-                    <td className="table-cell text-slate-500 font-medium">{user.email}</td>
+                    <td className="table-cell text-slate-500 font-medium">
+                      <div className="flex flex-col">
+                        <span>{user.email}</span>
+                        <span className="text-[10px] text-slate-400">{user.phoneNumber}</span>
+                      </div>
+                    </td>
                     <td className="table-cell"><RoleBadge role={user.role} /></td>
                     <td className="table-cell text-slate-500 font-bold text-xs uppercase tracking-tight">{user.title || '—'}</td>
                     <td className="table-cell text-slate-500 font-medium">{user.department || '—'}</td>

@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
     minlength: [6, 'Password must be at least 6 characters'],
     select: false
   },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Phone number is required'],
+    unique: true,
+    trim: true
+  },
   role: {
     type: String,
     enum: ['employee', 'manager', 'admin'],
@@ -54,6 +60,14 @@ const userSchema = new mongoose.Schema({
   },
   profilePic: {
     type: String,
+    default: null
+  },
+  resetOTP: {
+    type: String,
+    default: null
+  },
+  resetOTPExpire: {
+    type: Date,
     default: null
   }
 }, {

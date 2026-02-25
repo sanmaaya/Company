@@ -21,6 +21,7 @@ const seedDB = async () => {
       name: 'Admin User',
       email: 'admin@leavesync.com',
       password: pass,
+      phoneNumber: '9999999999',
       role: 'admin',
       title: 'Head of Administration',
       department: 'Management'
@@ -30,6 +31,7 @@ const seedDB = async () => {
       name: 'Meera Iyer',
       email: 'meera@leavesync.com',
       password: pass,
+      phoneNumber: '8888888888',
       role: 'admin',
       title: 'HR Director',
       department: 'People & Culture'
@@ -40,6 +42,7 @@ const seedDB = async () => {
       name: 'Riya Verma',
       email: 'manager@leavesync.com',
       password: pass,
+      phoneNumber: '7777777777',
       role: 'manager',
       title: 'Engineering Manager',
       department: 'Engineering'
@@ -49,6 +52,7 @@ const seedDB = async () => {
       name: 'Suresh Raina',
       email: 'suresh@leavesync.com',
       password: pass,
+      phoneNumber: '6666666666',
       role: 'manager',
       title: 'Marketing Manager',
       department: 'Marketing'
@@ -59,6 +63,7 @@ const seedDB = async () => {
       name: 'Amit Patel',
       email: 'employee@leavesync.com',
       password: pass,
+      phoneNumber: '5555555555',
       role: 'employee',
       title: 'Senior Frontend Engineer',
       department: 'Engineering',
@@ -69,6 +74,7 @@ const seedDB = async () => {
       name: 'Priya Sharma',
       email: 'priya@leavesync.com',
       password: pass,
+      phoneNumber: '4444444444',
       role: 'employee',
       title: 'Backend Developer',
       department: 'Engineering',
@@ -79,6 +85,7 @@ const seedDB = async () => {
       name: 'Vikram Singh',
       email: 'vikram@leavesync.com',
       password: pass,
+      phoneNumber: '3333333333',
       role: 'employee',
       title: 'Digital Marketer',
       department: 'Marketing',
@@ -89,6 +96,7 @@ const seedDB = async () => {
       name: 'Anjali Gupta',
       email: 'anjali@leavesync.com',
       password: pass,
+      phoneNumber: '2222222222',
       role: 'employee',
       title: 'HR Specialist',
       department: 'People & Culture',
@@ -119,11 +127,9 @@ const seedDB = async () => {
       }
     ]);
 
-    console.log('✅ Database seeded successfully with Titles and Meera Iyer!');
+    console.log('✅ Database seeded successfully with Phone Numbers!');
     console.log('\n📋 Login Credentials:');
     console.log('Admin (Global): meera@leavesync.com / password123');
-    console.log('Manager (Eng):  manager@leavesync.com / password123');
-    console.log('Employee:       employee@leavesync.com / password123');
     process.exit(0);
   } catch (err) {
     console.error('Seed error:', err);

@@ -64,7 +64,12 @@ const Login = () => {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="form-label ml-1">Password</label>
+                        <div className="flex justify-between items-center ml-1">
+                            <label className="form-label mb-0">Password</label>
+                            <Link to="/forgot-password" disable={loading} className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors">
+                                Forgot Password?
+                            </Link>
+                        </div>
                         <div className="relative group">
                             <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
                             <input

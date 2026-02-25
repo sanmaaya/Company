@@ -8,7 +8,7 @@ const DashboardLayout = ({ children, title }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
-    <div className="flex min-h-screen bg-slate-50 dark:bg-[#0b0f1a] transition-colors duration-300">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-[#020617] transition-colors duration-300">
       <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
       <div className="flex-1 flex flex-col min-w-0">
         <Header title={title} onMenuClick={() => setMobileOpen(true)} />

@@ -9,6 +9,7 @@ import { ThemeProvider } from './context/ThemeContext';
 // ── Auth Pages ──────────────────────────────────────────────
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
+import ForgotPasswordPage from './pages/ForgotPassword';
 import LandingPage from './pages/Home';
 import NotFound from './pages/NotFound';
 
@@ -67,6 +68,7 @@ const AppRoutes = () => (
     <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
     <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
     <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+    <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
 
     {/* Smart redirect */}
     <Route path="/dashboard" element={<ProtectedRoute><DashboardRedirect /></ProtectedRoute>} />
