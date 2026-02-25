@@ -24,7 +24,6 @@
   }
 }
 
-
 @layer base {
   * {
     box-sizing: border-box;
@@ -197,9 +196,17 @@
 }
 
 .glow-emerald {
-  @apply shadow-[0_0_20px_rgba(16, 185, 129, 0.15)] dark:shadow-[0_0_25px_rgba(16, 185, 129, 0.1)];
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+}
+
+.dark .glow-emerald {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.1);
 }
 
 .glow-rose {
-  @apply shadow-[0_0_20px_rgba(244, 63, 94, 0.15)] dark:shadow-[0_0_25px_rgba(244, 63, 94, 0.1)];
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.15);
+}
+
+.dark .glow-rose {
+  box-shadow: 0 0 25px rgba(244, 63, 94, 0.1);
 }
