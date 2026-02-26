@@ -112,6 +112,7 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/leaves', require('./routes/leaveRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/chat', require('./routes/chatRoutes'));
+app.use('/api/reimbursements', require('./routes/reimbursementRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => {

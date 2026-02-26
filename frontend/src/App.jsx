@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { LeaveProvider } from './context/LeaveContext';
+import { ReimbursementProvider } from './context/ReimbursementContext';
 import { ToastProvider } from './components/common/Toast';
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -20,10 +21,11 @@ import MyLeaves from './pages/employee/MyLeaves';
 import Profile from './pages/employee/Profile';
 import Contacts from './pages/employee/Contacts';
 import Projects from './pages/Projects';
+import MyReimbursements from './pages/employee/MyReimbursements';
 
 // ── Manager/Admin Pages ─────────────────────────────────────
 import Approvals from './pages/manager/Approvals';
-import Settings from './pages/manager/Settings';
+import ReimbursementApprovals from './pages/manager/ReimbursementApprovals';
 import Team from './pages/manager/Team';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminLeaves from './pages/admin/AdminLeaves';
@@ -39,9 +41,11 @@ const ProtectedRoute = ({ children, roles }) => {
   if (roles && !roles.includes(user?.role)) return <Navigate to="/dashboard" replace />;
   return (
     <LeaveProvider>
-      <ToastProvider>
-        {children}
-      </ToastProvider>
+      <ReimbursementProvider>
+        <ToastProvider>
+          {children}
+        </ToastProvider>
+      </ReimbursementProvider>
     </LeaveProvider>
   );
 };
@@ -80,10 +84,11 @@ const AppRoutes = () => (
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
     <Route path="/contacts" element={<ProtectedRoute><Contacts /></ProtectedRoute>} />
     <Route path="/projects" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
+    <Route path="/reimbursements" element={<ProtectedRoute roles={['employee', 'manager', 'admin']}><MyReimbursements /></ProtectedRoute>} />
 
     {/* Manager/Admin routes */}
     <Route path="/approvals" element={<ProtectedRoute roles={['manager', 'admin']}><Approvals /></ProtectedRoute>} />
-    <Route path="/settings" element={<ProtectedRoute roles={['manager', 'admin']}><Settings /></ProtectedRoute>} />
+    <Route path="/reimbursement-approvals" element={<ProtectedRoute roles={['manager', 'admin']}><ReimbursementApprovals /></ProtectedRoute>} />
     <Route path="/team" element={<ProtectedRoute roles={['admin']}><Team /></ProtectedRoute>} />
     <Route path="/admin/users" element={<ProtectedRoute roles={['admin']}><AdminUsers /></ProtectedRoute>} />
     <Route path="/admin/leaves" element={<ProtectedRoute roles={['admin']}><AdminLeaves /></ProtectedRoute>} />

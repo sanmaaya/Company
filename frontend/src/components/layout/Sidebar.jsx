@@ -11,6 +11,7 @@ const navItems = {
     { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
+    { path: '/reimbursements', label: 'Reimbursements', icon: '💰' },
     { path: '/contacts', label: 'Team Directory', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ],
@@ -19,8 +20,9 @@ const navItems = {
     { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
+    { path: '/reimbursements', label: 'Reimbursements', icon: '💰' },
     { path: '/approvals', label: 'Approvals', icon: '✅' },
-    { path: '/settings', label: 'Settings', icon: '⚙️' },
+    { path: '/reimbursement-approvals', label: 'Expenses', icon: '💳' },
     { path: '/contacts', label: 'Team Directory', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ],
@@ -29,8 +31,7 @@ const navItems = {
     { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/admin/users', label: 'Manage Users', icon: '👥' },
     { path: '/admin/leaves', label: 'All Leaves', icon: '📋' },
-    { path: '/approvals', label: 'Approvals', icon: '✅' },
-    { path: '/settings', label: 'Settings', icon: '⚙️' },
+    { path: '/reimbursement-approvals', label: 'Expenses', icon: '💳' },
     { path: '/contacts', label: 'Team Directory', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ]

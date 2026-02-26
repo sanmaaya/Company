@@ -197,7 +197,7 @@ const Dashboard = () => {
 
         {/* Right Column (1/4) */}
         <div className="space-y-10">
-          <CompanyStatusList />
+          {user?.role !== 'admin' && <CompanyStatusList />}
 
           {(user?.role === 'manager' || user?.role === 'admin') && (
             <div className="space-y-10">

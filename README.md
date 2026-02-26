@@ -52,11 +52,17 @@ Accessible from the sidebar by all users. Displays rich contact cards for every 
 
 ---
 
-### ⚙️ System Settings *(Manager & Admin only)*
-A dedicated settings page with:
+### 💰 Expense & Reimbursements
+- **Reimbursement Requests** — Employees can submit bills/receipts (PDF/Image) for travel, meals, or other expenses.
+- **Approvals Dashboard** — Managers and Admins can view uploaded receipts inline and approve or reject expenses.
+- **Receipt Modal** — A dedicated review modal ensures managers can easily evaluate the claim details before making a decision.
+
+---
+
+### ⚙️ System Settings & Profile
+- **Combined Command Center** — Managers and Admins access their data export commands directly within their Profile page.
 - **Personnel Data Export** — Download a report of all employee records (CSV format).
-- **Leave Analytics Export** — Download a comprehensive leave history report.
-- System status indicators (API health, privacy tier).
+- **Leave Analytics & Expense Reports** — Download comprehensive history and bill tracking reports (CSV).
 
 ---
 
@@ -208,10 +214,11 @@ Company/
         │   │   ├── ApplyLeave.jsx
         │   │   ├── MyLeaves.jsx
         │   │   ├── Contacts.jsx       # Team Directory (all users)
-        │   │   └── Profile.jsx
+        │   │   ├── MyReimbursements.jsx # Submit bills/receipts
+        │   │   └── Profile.jsx        # Profile + Admin Command Center
         │   ├── manager/
-        │   │   ├── Approvals.jsx
-        │   │   └── Settings.jsx       # Export + system settings
+        │   │   ├── Approvals.jsx      # Manager leave approvals
+        │   │   └── ReimbursementApprovals.jsx # Manager/Admin expense view
         │   └── admin/
         │       ├── AdminUsers.jsx
         │       └── AdminLeaves.jsx

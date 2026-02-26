@@ -43,4 +43,18 @@ export const LeaveTypeBadge = ({ type }) => {
   );
 };
 
+export const ReimbursementTypeBadge = ({ type }) => {
+  const styles = {
+    Travel: 'bg-indigo-100 text-indigo-800',
+    Meals: 'bg-emerald-100 text-emerald-800',
+    Supplies: 'bg-amber-100 text-amber-800',
+    Others: 'bg-zinc-100 text-zinc-700'
+  };
+  return (
+    <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${styles[type] || styles.Others}`}>
+      {type}
+    </span>
+  );
+};
+
 export default StatusBadge;

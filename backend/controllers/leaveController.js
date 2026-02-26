@@ -24,6 +24,15 @@ const applyLeave = async (req, res) => {
       return res.status(400).json({ success: false, message: 'End date must be after start date.' });
     }
 
+    // Check if the user already has a pending leave request
+    const existingPendingLeave = await Leave.findOne({ employee: req.user._id, status: 'pending' });
+    if (existingPendingLeave) {
+      return res.status(400).json({
+        success: false,
+        message: 'You already have a pending leave request. Please wait for it to be reviewed before applying for another leave.'
+      });
+    }
+
     const totalDays = Math.round((end - start) / (1000 * 60 * 60 * 24)) + 1;
 
     // Check leave balance

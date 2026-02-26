@@ -9,18 +9,24 @@ const navItems = {
     { to: '/employee', label: 'Dashboard', icon: '📊', end: true },
     { to: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { to: '/leave-history', label: 'Leave History', icon: '📋' },
+    { to: '/reimbursements', label: 'Reimbursements', icon: '💰' },
   ],
   manager: [
     { to: '/employee', label: 'My Dashboard', icon: '📊', end: true },
     { to: '/manager', label: 'Approvals', icon: '✅' },
+    { to: '/reimbursement-approvals', label: 'Expenses', icon: '💳' },
     { to: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { to: '/leave-history', label: 'My Leaves', icon: '📋' },
+    { to: '/reimbursements', label: 'Reimbursements', icon: '💰' },
   ],
   admin: [
     { to: '/admin', label: 'Admin Panel', icon: '⚙️', end: true },
     { to: '/manager', label: 'Leave Approvals', icon: '✅' },
+    { to: '/reimbursement-approvals', label: 'Expenses', icon: '💳' },
     { to: '/employee', label: 'My Dashboard', icon: '📊' },
     { to: '/apply-leave', label: 'Apply Leave', icon: '📝' },
+    { to: '/leave-history', label: 'My Leaves', icon: '📋' },
+    { to: '/reimbursements', label: 'My Reimbursements', icon: '💰' },
   ],
 };
 
