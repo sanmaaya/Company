@@ -54,21 +54,21 @@ const ForgotPassword = () => {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-slate-50 dark:bg-[#020617] transition-colors duration-300">
             {/* Ambient Glows */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass w-full max-w-md p-10 rounded-[2.5rem] relative z-10 border-white/50 dark:border-slate-800/50 glow-emerald"
+                className="glass w-full max-w-md p-10 rounded-[2.5rem] relative z-10 border-white/50 dark:border-slate-800/50 glow-blue"
             >
-                <Link to="/login" className="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-500 transition-colors mb-8 group">
+                <Link to="/login" className="inline-flex items-center gap-2 text-slate-400 hover:text-blue-500 transition-colors mb-8 group">
                     <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Back to Login</span>
                 </Link>
 
                 <div className="text-center mb-10">
-                    <div className="w-16 h-16 bg-emerald-600/10 rounded-3xl flex items-center justify-center text-emerald-600 text-3xl mx-auto mb-6 shadow-inner ring-1 ring-emerald-500/20">
+                    <div className="w-16 h-16 bg-blue-600/10 rounded-3xl flex items-center justify-center text-blue-600 text-3xl mx-auto mb-6 shadow-inner ring-1 ring-blue-500/20">
                         {step === 1 ? '📱' : '🔐'}
                     </div>
                     <h1 className="text-3xl font-black text-slate-800 dark:text-white mb-2 tracking-tight">
@@ -92,7 +92,7 @@ const ForgotPassword = () => {
                             <div className="space-y-2">
                                 <label className="form-label ml-1">Registered Phone Number</label>
                                 <div className="relative group">
-                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                                     <input
                                         type="tel"
                                         required
@@ -129,10 +129,10 @@ const ForgotPassword = () => {
                             className="space-y-6"
                         >
                             {demoOtp && (
-                                <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl mb-6 flex items-start gap-3">
-                                    <CheckCircle2 className="text-emerald-500 mt-0.5" size={18} />
+                                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-2xl mb-6 flex items-start gap-3">
+                                    <CheckCircle2 className="text-blue-500 mt-0.5" size={18} />
                                     <div>
-                                        <p className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Demo OTP Received</p>
+                                        <p className="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">Demo OTP Received</p>
                                         <p className="text-2xl font-black text-slate-800 dark:text-white tracking-[0.5em] mt-1">{demoOtp}</p>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@ const ForgotPassword = () => {
                             <div className="space-y-2">
                                 <label className="form-label ml-1">6-Digit Verification Code</label>
                                 <div className="relative group">
-                                    <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                                    <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                                     <input
                                         type="text"
                                         required
@@ -157,7 +157,7 @@ const ForgotPassword = () => {
                             <div className="space-y-2">
                                 <label className="form-label ml-1">New Secure Password</label>
                                 <div className="relative group">
-                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                                     <input
                                         type="password"
                                         required
@@ -187,7 +187,7 @@ const ForgotPassword = () => {
                 <div className="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
                     <p className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
                         Remembered?{' '}
-                        <Link to="/login" className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-all ml-1">
+                        <Link to="/login" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-all ml-1">
                             Go Back
                         </Link>
                     </p>

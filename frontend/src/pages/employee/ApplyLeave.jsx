@@ -66,7 +66,7 @@ const ApplyLeave = () => {
         {/* Balance Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { type: 'casual', icon: '🏖️', color: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20' },
+            { type: 'casual', icon: '🏖️', color: 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-100 dark:border-blue-500/20' },
             { type: 'sick', icon: '🏥', color: 'bg-rose-50 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-100 dark:border-rose-500/20' },
             { type: 'earned', icon: '⭐', color: 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-100 dark:border-amber-500/20' },
             { type: 'unpaid', icon: '💼', color: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700' }
@@ -82,7 +82,7 @@ const ApplyLeave = () => {
         {/* Form Card */}
         <div className="card p-8">
           <h2 className="section-title mb-6 flex items-center gap-2">
-            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
             New Leave Request
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -97,7 +97,7 @@ const ApplyLeave = () => {
                     type="button"
                     onClick={() => f('leaveType', lt.value)}
                     className={`p-4 rounded-2xl border-2 text-left transition-all duration-300 ${form.leaveType === lt.value
-                      ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-500/10 shadow-lg shadow-emerald-500/10'
+                      ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-500/10 shadow-lg shadow-blue-500/10'
                       : 'border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-md'
                       }`}
                   >
@@ -106,7 +106,7 @@ const ApplyLeave = () => {
                         {lt.icon}
                       </div>
                       <div>
-                        <div className={`text-sm font-extrabold ${form.leaveType === lt.value ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>{lt.label}</div>
+                        <div className={`text-sm font-extrabold ${form.leaveType === lt.value ? 'text-blue-700 dark:text-blue-400' : 'text-slate-800 dark:text-slate-200'}`}>{lt.label}</div>
                         <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1">{lt.desc}</div>
                       </div>
                     </div>
@@ -144,7 +144,7 @@ const ApplyLeave = () => {
 
             {/* Days preview */}
             {totalDays > 0 && (
-              <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 rounded-2xl px-5 py-4 flex items-center gap-3 text-emerald-700 dark:text-emerald-400">
+              <div className="bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 rounded-2xl px-5 py-4 flex items-center gap-3 text-blue-700 dark:text-blue-400">
                 <div className="text-2xl">⏳</div>
                 <div className="text-sm">
                   <span className="font-bold opacity-70 block uppercase tracking-tighter text-[10px] mb-0.5">Calculated Duration</span>

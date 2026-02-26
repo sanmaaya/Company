@@ -94,17 +94,51 @@ const seedDB = async () => {
       client: 'Skyscanner',
       deadline: new Date('2024-09-30'),
       status: 'active',
-      members: [employees[0]._id, employees[1]._id, employees[3]._id, riya._id],
+      members: [employees[0]._id, employees[1]._id, employees[3]._id, riya._id, meera._id],
       createdBy: meera._id
     });
+
+    const p2 = await Project.create({
+      name: 'Cloud Infrastructure Upgrade',
+      description: 'Migrating legacy servers to modern cloud architecture.',
+      client: 'TechFlow Systems',
+      deadline: new Date('2024-05-15'),
+      status: 'completed',
+      members: [employees[8]._id, rahul._id, meera._id],
+      createdBy: rahul._id
+    });
+
+    const p3 = await Project.create({
+      name: 'AI-Powered HR Bot',
+      description: 'Future project to automate leave inquiries and HR FAQs.',
+      client: 'Internal',
+      deadline: new Date('2025-01-20'),
+      status: 'upcoming',
+      members: [employees[0]._id, employees[7]._id, meera._id],
+      createdBy: meera._id
+    });
+
     // ── TASKS ───────────────────────────────────────────
     await Task.create([
+      // Project 1 (Active)
       { project: p1._id, title: 'Design Login Flow', description: 'Design UI in Figma', assignedTo: employees[0]._id, deadline: new Date('2024-06-30'), priority: 'high', status: 'in-progress' },
       { project: p1._id, title: 'Implement Auth API', description: 'Build JWT integration', assignedTo: employees[1]._id, deadline: new Date('2024-07-05'), priority: 'high', status: 'todo' },
       { project: p1._id, title: 'User Discovery Interviews', description: 'Talk to 5 potential users', assignedTo: employees[3]._id, deadline: new Date('2024-06-25'), priority: 'medium', status: 'completed' },
-      // New tasks
-      { project: p1._id, title: 'Backend Integration', description: 'Connect frontend with backend APIs', assignedTo: employees[6]._id, deadline: new Date('2024-07-15'), priority: 'high', status: 'todo' },
-      { project: p1._id, title: 'Setup CI/CD Pipeline', description: 'Deploy action via GitHub', assignedTo: employees[8]._id, deadline: new Date('2024-06-28'), priority: 'medium', status: 'todo' }
+      { project: p1._id, title: 'Compliance Review', description: 'Check GDPR standards', assignedTo: meera._id, deadline: new Date('2024-07-10'), priority: 'medium', status: 'todo' },
+      { project: p1._id, title: 'Setup CI/CD Pipeline', description: 'Deploy action via GitHub', assignedTo: employees[8]._id, deadline: new Date('2024-06-28'), priority: 'medium', status: 'todo' },
+      { project: p1._id, title: 'Managerial Performance Review', description: 'Review Q2 stats', assignedTo: riya._id, deadline: new Date('2026-03-05'), priority: 'high', status: 'in-progress' },
+      { project: p1._id, title: 'Budget Allocation Sync', description: 'Sync with HR', assignedTo: riya._id, deadline: new Date('2026-03-10'), priority: 'medium', status: 'todo' },
+
+      // Project 2 (Completed)
+      { project: p2._id, title: 'Audit Existing Servers', description: 'Map all hardware assets', assignedTo: employees[8]._id, deadline: new Date('2024-04-01'), priority: 'high', status: 'completed' },
+      { project: p2._id, title: 'Data Migration Strategy', description: 'Plan the move', assignedTo: rahul._id, deadline: new Date('2024-04-10'), priority: 'high', status: 'completed' },
+      { project: p2._id, title: 'Final Handover', description: 'Review with client', assignedTo: meera._id, deadline: new Date('2024-05-10'), priority: 'low', status: 'completed' },
+      { project: p2._id, title: 'Retrospective Session', description: 'Internal team sync', assignedTo: riya._id, deadline: new Date('2024-05-20'), priority: 'low', status: 'completed' },
+
+      // Project 3 (Upcoming/Future)
+      { project: p3._id, title: 'Define NLP Requirements', description: 'What should the bot understand?', assignedTo: employees[7]._id, deadline: new Date('2024-11-01'), priority: 'medium', status: 'todo' },
+      { project: p3._id, title: 'Frontend Prototyping', description: 'Chat window design', assignedTo: employees[0]._id, deadline: new Date('2024-11-15'), priority: 'medium', status: 'todo' },
+      { project: p3._id, title: 'Budget Approval', description: 'Get the sign-off', assignedTo: meera._id, deadline: new Date('2024-10-01'), priority: 'high', status: 'todo' }
     ]);
 
     // ── LEAVES ──────────────────────────────────────────
@@ -143,6 +177,37 @@ const seedDB = async () => {
         totalDays: 1,
         reason: 'Mental health day',
         status: 'pending'
+      },
+      {
+        employee: employees[6]._id,
+        leaveType: 'sick',
+        startDate: new Date(today.getTime() - 86400000 * 2),
+        endDate: new Date(today.getTime() - 86400000 * 1),
+        totalDays: 2,
+        reason: 'Dental surgery',
+        status: 'approved',
+        reviewedBy: riya._id,
+        reviewedAt: new Date(today.getTime() - 86400000 * 5)
+      },
+      {
+        employee: employees[7]._id,
+        leaveType: 'casual',
+        startDate: new Date(today.getTime() + 86400000 * 10),
+        endDate: new Date(today.getTime() + 86400000 * 12),
+        totalDays: 3,
+        reason: 'Mini vacation',
+        status: 'pending'
+      },
+      {
+        employee: employees[1]._id,
+        leaveType: 'sick',
+        startDate: new Date(today.getTime() + 86400000 * 15),
+        endDate: new Date(today.getTime() + 86400000 * 16),
+        totalDays: 2,
+        reason: 'Doctor Appointment',
+        status: 'approved',
+        reviewedBy: riya._id,
+        reviewedAt: today
       }
     ]);
 

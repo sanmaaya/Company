@@ -37,113 +37,113 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 py-12 relative overflow-hidden bg-slate-50 dark:bg-[#020617] transition-colors duration-300">
+        <div className="min-h-screen flex items-center justify-center p-4 py-12 relative overflow-hidden bg-slate-50">
             {/* Ambient Glows */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-emerald-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2"></div>
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass w-full max-w-2xl p-8 md:p-12 rounded-[2.5rem] relative z-10 border-white/50 dark:border-slate-800/50 glow-emerald"
+                className="bg-white w-full max-w-2xl p-8 md:p-12 rounded-[2.5rem] relative z-10 border border-slate-100 shadow-2xl"
             >
                 <div className="text-center mb-10">
-                    <div className="text-2xl font-black tracking-tighter text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-2 mb-4">
-                        <div className="w-6 h-6 bg-emerald-600 rounded-lg flex items-center justify-center text-white text-[10px] shadow-lg shadow-emerald-500/20">🌿</div>
-                        EmployeeSync
+                    <div className="text-2xl font-black tracking-tighter text-blue-600 flex items-center justify-center gap-2 mb-4">
+                        <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center text-white text-sm shadow-lg shadow-blue-500/20">🏙️</div>
+                        WORK Balance
                     </div>
-                    <h1 className="text-4xl font-black text-slate-800 dark:text-white mb-2 tracking-tight">Create Account</h1>
-                    <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-[10px]">Start your modern workspace journey</p>
+                    <h1 className="text-4xl font-black text-slate-900 mb-2 tracking-tight">Create Account</h1>
+                    <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Start your modern workspace journey</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2 col-span-2 md:col-span-1">
-                        <label className="form-label ml-1">Full Name</label>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Full Name</label>
                         <div className="relative group">
-                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                             <input
                                 type="text"
                                 name="name"
                                 required
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="input !pl-12 !py-3.5"
+                                className="w-full px-4 py-3.5 pl-12 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 bg-slate-50/50"
                                 placeholder="John Doe"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2 col-span-2 md:col-span-1">
-                        <label className="form-label ml-1">Email Address</label>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Email Address</label>
                         <div className="relative group">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                             <input
                                 type="email"
                                 name="email"
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="input !pl-12 !py-3.5"
+                                className="w-full px-4 py-3.5 pl-12 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 bg-slate-50/50"
                                 placeholder="name@company.com"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2 col-span-2 md:col-span-1">
-                        <label className="form-label ml-1">Phone Number</label>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Phone Number</label>
                         <div className="relative group">
-                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                             <input
                                 type="tel"
                                 name="phoneNumber"
                                 required
                                 value={formData.phoneNumber}
                                 onChange={handleChange}
-                                className="input !pl-12 !py-3.5"
+                                className="w-full px-4 py-3.5 pl-12 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 bg-slate-50/50"
                                 placeholder="e.g. 9999999999"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2 col-span-2 md:col-span-1">
-                        <label className="form-label ml-1">Password</label>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Password</label>
                         <div className="relative group">
-                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                             <input
                                 name="password"
                                 type="password"
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="input !pl-12 !py-3.5"
+                                className="w-full px-4 py-3.5 pl-12 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 bg-slate-50/50"
                                 placeholder="••••••••"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2 col-span-2 md:col-span-1">
-                        <label className="form-label ml-1">Department</label>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Department</label>
                         <div className="relative group">
-                            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" size={18} />
+                            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                             <input
                                 name="department"
                                 type="text"
                                 required
                                 value={formData.department}
                                 onChange={handleChange}
-                                className="input !pl-12 !py-3.5"
+                                className="w-full px-4 py-3.5 pl-12 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 bg-slate-50/50"
                                 placeholder="Engineering"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2 col-span-2 md:col-span-1">
-                        <label className="form-label ml-1">Onboarding Role</label>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Onboarding Role</label>
                         <select
                             name="role"
                             value={formData.role}
                             onChange={handleChange}
-                            className="input !py-[13px] cursor-pointer"
+                            className="w-full px-4 py-[14px] border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all duration-200 bg-slate-50/50 cursor-pointer"
                         >
                             <option value="employee">Employee</option>
                             <option value="manager">Manager</option>
@@ -154,24 +154,24 @@ const Register = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full col-span-2 btn-primary !py-4 rounded-2xl !text-base font-black tracking-tight group overflow-hidden relative mt-4"
+                        className="w-full col-span-2 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl text-base font-black tracking-tight shadow-xl shadow-blue-600/20 transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2 group relative overflow-hidden"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                         {loading ? (
                             <Loader2 className="animate-spin" size={24} />
                         ) : (
-                            <div className="flex items-center justify-center gap-2">
+                            <>
                                 <span>Create Workspace Account</span>
                                 <Plus className="group-hover:rotate-90 transition-transform" size={20} />
-                            </div>
+                            </>
                         )}
                     </button>
                 </form>
 
-                <div className="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
-                    <p className="text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-wider">
+                <div className="mt-10 pt-8 border-t border-slate-100 text-center">
+                    <p className="text-slate-500 font-bold text-xs uppercase tracking-wider">
                         Already have access?{' '}
-                        <Link to="/login" className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-all ml-1">
+                        <Link to="/login" className="text-blue-600 hover:text-blue-700 transition-all ml-1">
                             Go to Login
                         </Link>
                     </p>

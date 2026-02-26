@@ -8,13 +8,15 @@ const {
     createTask,
     updateTaskStatus,
     getMyTasks,
-    getActiveTasks
+    getActiveTasks,
+    getOverdueTasks
 } = require('../controllers/projectController');
 
 router.use(protect);
 
 router.get('/my-tasks', getMyTasks);
 router.get('/tasks/active', getActiveTasks);
+router.get('/tasks/overdue', authorize('admin', 'manager'), getOverdueTasks);
 router.put('/tasks/:taskId', updateTaskStatus);
 
 router.route('/')

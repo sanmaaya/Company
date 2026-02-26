@@ -33,7 +33,7 @@ const AdminLeaves = () => {
         <div className="p-5 border-b border-gray-100 flex flex-wrap gap-3 items-center justify-between">
           <div className="flex gap-2 flex-wrap">
             {['all', 'pending', 'approved', 'rejected'].map(s => (
-              <button key={s} onClick={() => setFilter(s)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${filter === s ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+              <button key={s} onClick={() => setFilter(s)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${filter === s ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
                 {s} ({s === 'all' ? leaves.length : leaves.filter(l => l.status === s).length})
               </button>
             ))}
@@ -74,7 +74,7 @@ const AdminLeaves = () => {
                           <button
                             onClick={() => quickAction(leave._id, 'approved')}
                             disabled={!!reviewing}
-                            className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-semibold hover:bg-green-200 disabled:opacity-50"
+                            className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-semibold hover:bg-blue-200 disabled:opacity-50"
                           >
                             ✅
                           </button>

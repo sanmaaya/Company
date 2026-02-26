@@ -3,10 +3,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    const [darkMode, setDarkMode] = useState(() => {
-        const saved = localStorage.getItem('darkMode');
-        return saved ? JSON.parse(saved) : false;
-    });
+    // Default to light mode (false), but allow toggling
+    const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
         if (darkMode) {
@@ -14,10 +12,11 @@ export const ThemeProvider = ({ children }) => {
         } else {
             document.documentElement.classList.remove('dark');
         }
-        localStorage.setItem('darkMode', JSON.stringify(darkMode));
     }, [darkMode]);
 
-    const toggleDarkMode = () => setDarkMode(prev => !prev);
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+    };
 
     return (
         <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>

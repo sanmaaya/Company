@@ -57,8 +57,8 @@ const Profile = () => {
         <div className="card p-8">
           <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
             <div className="relative group">
-              <Avatar name={user?.name} src={form.profilePic} size="xl" className="ring-4 ring-emerald-500/10" />
-              <label className="absolute inset-0 flex items-center justify-center bg-emerald-600/80 rounded-full text-white opacity-0 group-hover:opacity-100 cursor-pointer transition-all text-xs font-black uppercase tracking-widest backdrop-blur-sm">
+              <Avatar name={user?.name} src={form.profilePic} size="xl" className="ring-4 ring-blue-500/10" />
+              <label className="absolute inset-0 flex items-center justify-center bg-blue-600/80 rounded-full text-white opacity-0 group-hover:opacity-100 cursor-pointer transition-all text-xs font-black uppercase tracking-widest backdrop-blur-sm">
                 UPLOAD
                 <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
               </label>
@@ -68,7 +68,7 @@ const Profile = () => {
               <p className="text-slate-500 dark:text-slate-400 font-bold mb-4">{user?.email}</p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
                 <RoleBadge role={user?.role} />
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-100 dark:border-emerald-500/20">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-full border border-blue-100 dark:border-blue-500/20">
                   {user?.title || user?.department}
                 </span>
               </div>
@@ -114,7 +114,7 @@ const Profile = () => {
             </div>
 
             <div className="pt-4 flex justify-end">
-              <button type="submit" disabled={loading} className="btn-primary px-10 py-3.5 !rounded-2xl shadow-xl shadow-emerald-500/20 flex items-center gap-3 group">
+              <button type="submit" disabled={loading} className="btn-primary px-10 py-3.5 !rounded-2xl shadow-xl shadow-blue-500/20 flex items-center gap-3 group">
                 {loading ? <LoadingSpinner size="sm" /> : <span className="text-xl group-hover:scale-125 transition-transform">💾</span>}
                 <span className="font-black text-xs uppercase tracking-[0.15em]">Save Profile Settings</span>
               </button>
@@ -131,7 +131,7 @@ const Profile = () => {
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { key: 'casual', label: 'Casual', icon: '🏝️', bg: 'bg-emerald-50/50 dark:bg-emerald-500/10', text: 'text-emerald-700 dark:text-emerald-400' },
+                { key: 'casual', label: 'Casual', icon: '🏝️', bg: 'bg-blue-50/50 dark:bg-blue-500/10', text: 'text-blue-700 dark:text-blue-400' },
                 { key: 'sick', label: 'Sick', icon: '🏥', bg: 'bg-rose-50/50 dark:bg-rose-500/10', text: 'text-rose-700 dark:text-rose-400' },
                 { key: 'earned', label: 'Earned', icon: '⭐', bg: 'bg-amber-50/50 dark:bg-amber-500/10', text: 'text-amber-700 dark:text-amber-400' },
                 { key: 'unpaid', label: 'Unpaid', icon: '💼', bg: 'bg-slate-50/50 dark:bg-slate-800/50', text: 'text-slate-700 dark:text-slate-400' }
@@ -158,7 +158,7 @@ const Profile = () => {
                 { label: 'Security Role', value: user?.role, icon: '🛡️' },
                 { label: 'Onboarding Date', value: new Date(user?.createdAt).toLocaleDateString('en-IN', { dateStyle: 'long' }), icon: '📅' }
               ].map(row => (
-                <div key={row.label} className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl flex items-center justify-between border border-transparent hover:border-emerald-500/20 transition-all group">
+                <div key={row.label} className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl flex items-center justify-between border border-transparent hover:border-blue-500/20 transition-all group">
                   <div className="flex items-center gap-3">
                     <span className="opacity-50 grayscale group-hover:grayscale-0 transition-all">{row.icon}</span>
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{row.label}</span>

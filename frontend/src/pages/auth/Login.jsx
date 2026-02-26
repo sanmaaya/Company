@@ -58,11 +58,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-2xl mb-4 shadow-lg">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-lg">
             <span className="text-3xl">🌿</span>
           </div>
           <h1 className="text-3xl font-bold text-gray-800">LeaveSync</h1>
@@ -78,7 +78,7 @@ const Login = () => {
                 type="email"
                 value={form.email}
                 onChange={e => { setForm({ ...form, email: e.target.value }); setErrors({ ...errors, email: '' }); }}
-                className={`w-full px-4 py-2.5 rounded-lg border ${errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm transition`}
+                className={`w-full px-4 py-2.5 rounded-lg border ${errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition`}
                 placeholder="you@company.com"
               />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
@@ -90,7 +90,7 @@ const Login = () => {
                 type="password"
                 value={form.password}
                 onChange={e => { setForm({ ...form, password: e.target.value }); setErrors({ ...errors, password: '' }); }}
-                className={`w-full px-4 py-2.5 rounded-lg border ${errors.password ? 'border-red-300 bg-red-50' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm transition`}
+                className={`w-full px-4 py-2.5 rounded-lg border ${errors.password ? 'border-red-300 bg-red-50' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition`}
                 placeholder="••••••••"
               />
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
@@ -99,7 +99,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {loading ? <LoadingSpinner size="sm" /> : null}
               {loading ? 'Signing in...' : 'Sign In'}
@@ -108,7 +108,7 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-500 mt-5">
             Don't have an account?{' '}
-            <Link to="/register" className="text-green-600 font-semibold hover:underline">Register here</Link>
+            <Link to="/register" className="text-blue-600 font-semibold hover:underline">Register here</Link>
           </p>
 
           {/* Demo Logins */}
@@ -120,7 +120,7 @@ const Login = () => {
                   key={role}
                   onClick={() => demoLogin(role)}
                   disabled={loading}
-                  className="py-2 px-2 text-xs font-semibold rounded-lg border border-green-200 text-green-700 hover:bg-green-50 transition capitalize disabled:opacity-60"
+                  className="py-2 px-2 text-xs font-semibold rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50 transition capitalize disabled:opacity-60"
                 >
                   {role === 'admin' ? '🛡️' : role === 'manager' ? '👔' : '👤'} {role}
                 </button>

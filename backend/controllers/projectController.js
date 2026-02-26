@@ -140,6 +140,23 @@ const getActiveTasks = async (req, res) => {
     }
 };
 
+// @desc    Get all overdue tasks (Not completed + past deadline)
+// @route   GET /api/projects/tasks/overdue
+// @access  Private (Admin, Manager)
+const getOverdueTasks = async (req, res) => {
+    try {
+        const tasks = await Task.find({
+            status: { $ne: 'completed' },
+            deadline: { $lt: new Date() }
+        })
+            .populate('assignedTo', 'name email profilePic')
+            .populate('project', 'name');
+        res.json({ success: true, tasks });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 module.exports = {
     getProjects,
     createProject,
@@ -147,5 +164,6 @@ module.exports = {
     createTask,
     updateTaskStatus,
     getMyTasks,
-    getActiveTasks
+    getActiveTasks,
+    getOverdueTasks
 };

@@ -43,7 +43,7 @@ const protect = async (req, res, next) => {
     if (error.name === 'TokenExpiredError') {
       return res.status(401).json({ success: false, message: 'Token expired. Please login again.' });
     }
-    res.status(500).json({ success: false, message: 'Server error in auth middleware.' });
+    res.status(500).json({ success: false, message: error.message || 'Server error in auth middleware.' });
   }
 };
 

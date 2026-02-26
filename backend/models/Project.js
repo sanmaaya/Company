@@ -20,7 +20,7 @@ const projectSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['planning', 'active', 'completed', 'on-hold'],
+        enum: ['planning', 'active', 'completed', 'on-hold', 'upcoming'],
         default: 'planning'
     },
     members: [{

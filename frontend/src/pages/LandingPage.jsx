@@ -57,10 +57,10 @@ const LandingPage = () => {
                         </div>
                         <div className="hero-trust">
                             <div className="trust-avatars">
-                                <div style={{ background: 'linear-gradient(135deg,#16a34a,#22c55e)' }}>P</div>
-                                <div style={{ background: 'linear-gradient(135deg,#15803d,#4ade80)' }}>R</div>
-                                <div style={{ background: 'linear-gradient(135deg,#166534,#86efac)' }}>A</div>
-                                <div style={{ background: 'linear-gradient(135deg,#14532d,#bbf7d0)', color: '#16a34a' }}>+</div>
+                                <div style={{ background: 'linear-gradient(135deg,#0284c7,#38bdf8)' }}>P</div>
+                                <div style={{ background: 'linear-gradient(135deg,#0369a1,#7dd3fc)' }}>R</div>
+                                <div style={{ background: 'linear-gradient(135deg,#075985,#bae6fd)' }}>A</div>
+                                <div style={{ background: 'linear-gradient(135deg,#e0f2fe,#bae6fd)', color: '#0369a1' }}>+</div>
                             </div>
                             <div className="trust-text"><strong>4,800+ HR teams</strong> already love LeaveSync</div>
                         </div>
@@ -131,12 +131,12 @@ const LandingPage = () => {
                         </div>
                         <div className="preview-wrapper reveal">
                             <div className="preview-browser-bar">
-                                <div className="dot red"></div><div className="dot yellow"></div><div className="dot green"></div>
+                                <div className="dot red"></div><div className="dot yellow"></div><div className="dot blue"></div>
                                 <div className="url-bar">app.leavesync.io/dashboard</div>
                             </div>
                             <div className="dashboard-ui">
                                 <div className="sidebar">
-                                    <div className="sidebar-logo">🌿 LeaveSync</div>
+                                    <div className="sidebar-logo">🏙️ LeaveSync</div>
                                     <div className="sidebar-nav">
                                         <div className="sidebar-item active">📊 Dashboard</div>
                                         <div className="sidebar-item">📝 Apply Leave</div>
@@ -153,8 +153,8 @@ const LandingPage = () => {
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><div style={{ fontSize: '0.78rem', color: 'var(--muted)' }}>HR Manager</div><div className="avatar">PK</div></div>
                                     </div>
                                     <div className="stats-row">
-                                        <div className="stat-card s1"><div className="stat-card-label">Approved</div><div className="stat-card-num green">5</div><div className="stat-card-sub">This month</div></div>
-                                        <div className="stat-card s2"><div className="stat-card-label">Days Left</div><div className="stat-card-num green">12</div><div className="stat-card-sub">Of 24 annual</div></div>
+                                        <div className="stat-card s1"><div className="stat-card-label">Approved</div><div className="stat-card-num blue">5</div><div className="stat-card-sub">This month</div></div>
+                                        <div className="stat-card s2"><div className="stat-card-label">Days Left</div><div className="stat-card-num blue">12</div><div className="stat-card-sub">Of 24 annual</div></div>
                                         <div className="stat-card"><div className="stat-card-label">Pending</div><div className="stat-card-num">2</div><div className="stat-card-sub">Awaiting approval</div></div>
                                         <div className="stat-card"><div className="stat-card-label">Team OOO</div><div className="stat-card-num">3</div><div className="stat-card-sub">Members today</div></div>
                                     </div>
@@ -206,17 +206,17 @@ const LandingPage = () => {
                         <div className="testi-card">
                             <div className="testi-stars">★★★★★</div>
                             <div className="testi-text">"We moved from email chains and spreadsheets to a fully automated system in one day. Our HR team got hours back every week."</div>
-                            <div className="testi-author"><div className="testi-avatar" style={{ background: 'linear-gradient(135deg,#16a34a,#4ade80)' }}>SK</div><div><div className="testi-name">Sunita Kapoor</div><div className="testi-role">HR Director, TechCorp India</div></div></div>
+                            <div className="testi-author"><div className="testi-avatar" style={{ background: 'linear-gradient(135deg,#0284c7,#38bdf8)' }}>SK</div><div><div className="testi-name">Sunita Kapoor</div><div className="testi-role">HR Director, TechCorp India</div></div></div>
                         </div>
                         <div className="testi-card">
                             <div className="testi-stars">★★★★★</div>
                             <div className="testi-text">"The manager approval flow is brilliant. I approve from my phone in seconds. The team calendar alone is worth it."</div>
-                            <div className="testi-author"><div className="testi-avatar" style={{ background: 'linear-gradient(135deg,#15803d,#86efac)' }}>AM</div><div><div className="testi-name">Arjun Malhotra</div><div className="testi-role">Engineering Manager, Zomato</div></div></div>
+                            <div className="testi-author"><div className="testi-avatar" style={{ background: 'linear-gradient(135deg,#0369a1,#7dd3fc)' }}>AM</div><div><div className="testi-name">Arjun Malhotra</div><div className="testi-role">Engineering Manager, Zomato</div></div></div>
                         </div>
                         <div className="testi-card">
                             <div className="testi-stars">★★★★★</div>
                             <div className="testi-text">"Finally a leave system that doesn't feel outdated. Clean, fast, and our employees actually enjoy using it."</div>
-                            <div className="testi-author"><div className="testi-avatar" style={{ background: 'linear-gradient(135deg,#166534,#bbf7d0)', color: '#16a34a' }}>NJ</div><div><div className="testi-name">Neha Joshi</div><div className="testi-role">COO, Startup Hub Bangalore</div></div></div>
+                            <div className="testi-author"><div className="testi-avatar" style={{ background: 'linear-gradient(135deg,#075985,#bae6fd)', color: '#0369a1' }}>NJ</div><div><div className="testi-name">Neha Joshi</div><div className="testi-role">COO, Startup Hub Bangalore</div></div></div>
                         </div>
                     </div>
                 </div>
@@ -287,7 +287,7 @@ const LandingPage = () => {
 
             {/* FOOTER */}
             <footer>
-                <div className="footer-brand">🌿 LeaveSync</div>
+                <div className="footer-brand">🏙️ LeaveSync</div>
                 <p>© 2024 LeaveSync. Built for modern HR teams.</p>
                 <div className="footer-links">
                     <a href="#">Privacy</a>

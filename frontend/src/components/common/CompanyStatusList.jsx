@@ -42,7 +42,7 @@ const CompanyStatusList = () => {
             const [uRes, tRes, lRes] = await Promise.all([
                 api.get('/users', { params: { all: 'true' } }),
                 api.get('/projects/tasks/active'),
-                api.get('/leaves', { params: { status: 'approved', date: today } })
+                api.get('/leaves', { params: { status: 'approved', date: today, all: 'true' } })
             ]);
             setUsers(uRes.data.users || []);
             setActiveTasks(tRes.data.tasks || []);
@@ -59,7 +59,7 @@ const CompanyStatusList = () => {
 
         if (isOnLeave) return { label: 'On Leave', color: 'bg-rose-500', text: 'text-rose-500' };
         if (isWorking) return { label: 'Working', color: 'bg-blue-500', text: 'text-blue-500' };
-        if (isOnline) return { label: 'Online', color: 'bg-emerald-500', text: 'text-emerald-500' };
+        if (isOnline) return { label: 'Online', color: 'bg-blue-500', text: 'text-blue-500' };
         return { label: 'Offline', color: 'bg-slate-300', text: 'text-slate-400' };
     };
 
@@ -68,8 +68,8 @@ const CompanyStatusList = () => {
             <h3 className="text-xl font-black text-slate-800 dark:text-white tracking-tight mb-8 flex items-center justify-between">
                 Live Status
                 <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></div>
-                    <span className="text-[10px] text-emerald-600 font-black uppercase tracking-[0.2em] italic">Active Now</span>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
+                    <span className="text-[10px] text-blue-600 font-black uppercase tracking-[0.2em] italic">Active Now</span>
                 </div>
             </h3>
 
@@ -86,7 +86,7 @@ const CompanyStatusList = () => {
                                     <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 ${status.color} border-2 border-white dark:border-slate-900 rounded-full shadow-sm`}></div>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-black text-slate-800 dark:text-slate-200 text-sm truncate leading-tight group-hover:text-emerald-600 transition-colors">
+                                    <p className="font-black text-slate-800 dark:text-slate-200 text-sm truncate leading-tight group-hover:text-blue-600 transition-colors">
                                         {u.name}
                                     </p>
                                     <p className="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mt-0.5 truncate">

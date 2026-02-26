@@ -19,8 +19,9 @@ const io = new Server(server, {
   }
 });
 
-// In-memory message store (persists during server session)
-const messages = {}; // { roomId: [{ sender, senderName, text, time }] }
+const Message = require('./models/Message');
+
+// Online users store (persists during server session)
 const onlineUsers = {}; // { socketId: { userId, name, role } }
 
 io.on('connection', (socket) => {
@@ -33,28 +34,35 @@ io.on('connection', (socket) => {
   });
 
   // Join a room (direct message or group)
-  socket.on('room:join', ({ roomId }) => {
+  socket.on('room:join', async ({ roomId }) => {
     socket.join(roomId);
-    // Send message history
-    socket.emit('messages:history', messages[roomId] || []);
+    try {
+      // Fetch last 50 messages from DB
+      const history = await Message.find({ roomId })
+        .sort({ createdAt: -1 })
+        .limit(50);
+
+      socket.emit('messages:history', history.reverse());
+    } catch (err) {
+      console.error('Error fetching chat history:', err);
+    }
   });
 
   // Send a message
-  socket.on('message:send', ({ roomId, senderId, senderName, senderPic, text }) => {
-    const msg = {
-      id: Date.now(),
-      roomId, // Include roomId in message
-      senderId,
-      senderName,
-      senderPic,
-      text,
-      time: new Date().toISOString()
-    };
-    if (!messages[roomId]) messages[roomId] = [];
-    messages[roomId].push(msg);
-    // Keep last 100 messages per room
-    if (messages[roomId].length > 100) messages[roomId].shift();
-    io.to(roomId).emit('message:new', msg);
+  socket.on('message:send', async ({ roomId, senderId, senderName, senderPic, text }) => {
+    try {
+      const newMessage = await Message.create({
+        roomId,
+        senderId,
+        senderName,
+        senderPic,
+        text
+      });
+
+      io.to(roomId).emit('message:new', newMessage);
+    } catch (err) {
+      console.error('Error saving message:', err);
+    }
   });
 
   // Typing indicator

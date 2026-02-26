@@ -56,7 +56,10 @@ const ChatWidget = () => {
     useEffect(() => {
         if (!user) return;
 
-        socket = io('/', { transports: ['websocket'] });
+        socket = io('http://localhost:5000', {
+            transports: ['websocket'],
+            withCredentials: true
+        });
 
         socket.emit('user:online', {
             userId: user._id,
@@ -97,7 +100,7 @@ const ChatWidget = () => {
                                     {groups.find(g => g._id === msg.roomId) ? `Group: ${groups.find(g => g._id === msg.roomId).name}` : 'Private Message'}
                                 </p>
                                 <p className="font-black text-xs text-white uppercase tracking-tight">{msg.senderName}</p>
-                                <p className="text-[11px] text-emerald-100/80 truncate font-medium">{msg.text}</p>
+                                <p className="text-[11px] text-blue-100/80 truncate font-medium">{msg.text}</p>
                             </div>
                         </div>
                     ), {
@@ -187,7 +190,7 @@ const ChatWidget = () => {
         <>
             <button
                 onClick={() => { setOpen(!open); if (!open) setUnreadCounts({}); }}
-                className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full shadow-2xl flex items-center justify-center text-white transition-all hover:scale-110 active:scale-95 group ring-4 ring-emerald-500/20"
+                className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-br from-blue-500 to-teal-600 rounded-full shadow-2xl flex items-center justify-center text-white transition-all hover:scale-110 active:scale-95 group ring-4 ring-blue-500/20"
             >
                 {open ? <X size={28} /> : <MessageSquare size={28} />}
                 {totalUnread > 0 && !open && (
@@ -213,14 +216,14 @@ const ChatWidget = () => {
                                 {view === 'chat' && (activeTarget.name || activeTarget.name)}
                                 {view === 'create-group' && "Form New Squad"}
                             </h3>
-                            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest opacity-80 leading-none mt-1">
+                            <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest opacity-80 leading-none mt-1">
                                 {view === 'list' && `${onlineIds.length} Agents Online`}
                                 {view === 'chat' && (activeTarget.members ? `${activeTarget.members.length} Members` : (onlineIds.includes(activeTarget._id) ? 'Online Now' : 'Last seen recently'))}
                                 {view === 'create-group' && "Select your team members"}
                             </p>
                         </div>
                         {view === 'list' && (
-                            <button onClick={() => setView('create-group')} className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-slate-900 hover:scale-105 transition active:scale-95">
+                            <button onClick={() => setView('create-group')} className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center text-slate-900 hover:scale-105 transition active:scale-95">
                                 <Plus size={20} />
                             </button>
                         )}
@@ -248,7 +251,7 @@ const ChatWidget = () => {
                                                     <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">{g.members.length} Members</p>
                                                 </div>
                                                 {unreadCounts[g._id] > 0 && (
-                                                    <span className="w-5 h-5 bg-emerald-500 rounded-full text-[9px] font-black text-white flex items-center justify-center ring-4 ring-white dark:ring-slate-950">
+                                                    <span className="w-5 h-5 bg-blue-500 rounded-full text-[9px] font-black text-white flex items-center justify-center ring-4 ring-white dark:ring-slate-950">
                                                         {unreadCounts[g._id]}
                                                     </span>
                                                 )}
@@ -266,15 +269,15 @@ const ChatWidget = () => {
                                         {users.map(u => (
                                             <button key={u._id} onClick={() => openChat(u)} className="w-full flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-100 dark:hover:border-slate-800 transition group">
                                                 <div className="relative">
-                                                    <Avatar src={u.profilePic} name={u.name} size="md" className="ring-2 ring-transparent group-hover:ring-emerald-500 transition-all" />
-                                                    <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-4 border-white dark:border-slate-950 ${onlineIds.includes(u._id) ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                                                    <Avatar src={u.profilePic} name={u.name} size="md" className="ring-2 ring-transparent group-hover:ring-blue-500 transition-all" />
+                                                    <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-4 border-white dark:border-slate-950 ${onlineIds.includes(u._id) ? 'bg-blue-500' : 'bg-slate-300'}`} />
                                                 </div>
                                                 <div className="text-left flex-1 min-w-0">
                                                     <p className="font-black text-slate-800 dark:text-slate-100 text-sm truncate">{u.name}</p>
                                                     <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">{u.title}</p>
                                                 </div>
                                                 {unreadCounts[getRoomId(user._id, u._id)] > 0 && (
-                                                    <span className="w-5 h-5 bg-emerald-500 rounded-full text-[9px] font-black text-white flex items-center justify-center ring-4 ring-white dark:ring-slate-950">
+                                                    <span className="w-5 h-5 bg-blue-500 rounded-full text-[9px] font-black text-white flex items-center justify-center ring-4 ring-white dark:ring-slate-950">
                                                         {unreadCounts[getRoomId(user._id, u._id)]}
                                                     </span>
                                                 )}
@@ -294,7 +297,7 @@ const ChatWidget = () => {
                                         value={groupName}
                                         onChange={(e) => setGroupName(e.target.value)}
                                         placeholder="e.g. ALPHA SQUAD"
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 font-black text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 font-black text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                     />
                                 </div>
                                 <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar">
@@ -303,11 +306,11 @@ const ChatWidget = () => {
                                         <button
                                             key={u._id}
                                             onClick={() => toggleMember(u._id)}
-                                            className={`w-full flex items-center gap-4 p-3 rounded-2xl border transition-all ${selectedMembers.includes(u._id) ? 'bg-emerald-500/10 border-emerald-500' : 'border-slate-100 dark:border-slate-800'}`}
+                                            className={`w-full flex items-center gap-4 p-3 rounded-2xl border transition-all ${selectedMembers.includes(u._id) ? 'bg-blue-500/10 border-blue-500' : 'border-slate-100 dark:border-slate-800'}`}
                                         >
                                             <Avatar src={u.profilePic} name={u.name} size="sm" />
-                                            <span className={`text-xs font-black flex-1 text-left ${selectedMembers.includes(u._id) ? 'text-emerald-600' : 'text-slate-600 dark:text-slate-400'}`}>{u.name}</span>
-                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMembers.includes(u._id) ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-slate-200 dark:border-slate-700'}`}>
+                                            <span className={`text-xs font-black flex-1 text-left ${selectedMembers.includes(u._id) ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400'}`}>{u.name}</span>
+                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMembers.includes(u._id) ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-200 dark:border-slate-700'}`}>
                                                 {selectedMembers.includes(u._id) && <Plus size={12} className="rotate-45" />}
                                             </div>
                                         </button>
@@ -316,7 +319,7 @@ const ChatWidget = () => {
                                 <button
                                     onClick={createGroupChat}
                                     disabled={!groupName.trim() || selectedMembers.length === 0}
-                                    className="w-full bg-emerald-500 text-slate-900 font-black py-5 rounded-2xl shadow-xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-95 transition disabled:opacity-40 disabled:hover:scale-100 uppercase tracking-widest text-xs"
+                                    className="w-full bg-blue-500 text-slate-900 font-black py-5 rounded-2xl shadow-xl shadow-blue-500/20 hover:scale-[1.02] active:scale-95 transition disabled:opacity-40 disabled:hover:scale-100 uppercase tracking-widest text-xs"
                                 >
                                     Confirm Strategic Unit
                                 </button>
@@ -330,7 +333,7 @@ const ChatWidget = () => {
                                     {messages.map((msg, i) => {
                                         const isMine = msg.senderId === user._id;
                                         return (
-                                            <div key={msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}>
+                                            <div key={msg._id || msg.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}>
                                                 <div className={`max-w-[85%] ${isMine ? 'items-end' : 'items-start'} flex flex-col`}>
                                                     {!isMine && (
                                                         <div className="flex items-center gap-2 mb-1 px-1">
@@ -339,7 +342,7 @@ const ChatWidget = () => {
                                                         </div>
                                                     )}
                                                     <div className={`px-5 py-3 rounded-2xl text-xs font-bold leading-relaxed shadow-sm ${isMine
-                                                        ? 'bg-emerald-600 text-white rounded-tr-none'
+                                                        ? 'bg-blue-600 text-white rounded-tr-none'
                                                         : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-100 dark:border-slate-800'
                                                         }`}>
                                                         {msg.text}
@@ -352,7 +355,7 @@ const ChatWidget = () => {
                                         );
                                     })}
                                     {typing && (
-                                        <div className="flex items-center gap-2 text-[9px] font-black text-emerald-500 bg-emerald-500/10 px-3 py-2 rounded-full w-fit">
+                                        <div className="flex items-center gap-2 text-[9px] font-black text-blue-500 bg-blue-500/10 px-3 py-2 rounded-full w-fit">
                                             <span className="flex gap-1">
                                                 <span className="w-1 h-1 bg-current rounded-full animate-bounce" />
                                                 <span className="w-1 h-1 bg-current rounded-full animate-bounce [animation-delay:0.2s]" />
@@ -368,9 +371,9 @@ const ChatWidget = () => {
                                         value={text}
                                         onChange={handleTyping}
                                         placeholder="Enter secure message..."
-                                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-xs font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                                        className="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 text-xs font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                     />
-                                    <button type="submit" className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-slate-900 shadow-lg shadow-emerald-500/20 hover:scale-110 active:scale-95 transition">
+                                    <button type="submit" className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center text-slate-900 shadow-lg shadow-blue-500/20 hover:scale-110 active:scale-95 transition">
                                         <Send size={20} />
                                     </button>
                                 </form>

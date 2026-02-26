@@ -112,7 +112,7 @@ const Projects = () => {
                         {(user.role === 'admin' || user.role === 'manager') && (
                             <button
                                 onClick={() => setShowProjectModal(true)}
-                                className="p-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition shadow-lg shadow-emerald-500/20"
+                                className="p-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-500/20"
                             >
                                 <Plus size={16} />
                             </button>
@@ -128,12 +128,12 @@ const Projects = () => {
                                     key={p._id}
                                     onClick={() => handleSelectProject(p)}
                                     className={`w-full text-left p-4 rounded-2xl border transition-all group relative overflow-hidden ${selectedProject?._id === p._id
-                                            ? 'bg-emerald-600 border-emerald-500 text-white shadow-xl shadow-emerald-600/20'
-                                            : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-emerald-500'
+                                            ? 'bg-blue-600 border-blue-500 text-white shadow-xl shadow-blue-600/20'
+                                            : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-blue-500'
                                         }`}
                                 >
                                     <div className="relative z-10">
-                                        <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${selectedProject?._id === p._id ? 'text-emerald-100' : 'text-slate-400'}`}>
+                                        <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${selectedProject?._id === p._id ? 'text-blue-100' : 'text-slate-400'}`}>
                                             {p.client}
                                         </p>
                                         <h3 className="font-black text-sm mb-2">{p.name}</h3>
@@ -182,15 +182,15 @@ const Projects = () => {
                                             layout
                                             key={task._id}
                                             className={`flex items-center gap-4 p-5 rounded-2xl border transition-all ${task.status === 'completed'
-                                                    ? 'bg-slate-50 dark:bg-slate-800/30 border-emerald-100/50 opacity-70'
+                                                    ? 'bg-slate-50 dark:bg-slate-800/30 border-blue-100/50 opacity-70'
                                                     : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:shadow-lg'
                                                 }`}
                                         >
                                             <button
                                                 onClick={() => toggleTaskStatus(task._id, task.status)}
                                                 className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${task.status === 'completed'
-                                                        ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
-                                                        : 'border-2 border-slate-200 dark:border-slate-600 hover:border-emerald-500'
+                                                        ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20'
+                                                        : 'border-2 border-slate-200 dark:border-slate-600 hover:border-blue-500'
                                                     }`}
                                             >
                                                 {task.status === 'completed' && <CheckCircle2 size={16} />}
@@ -206,7 +206,7 @@ const Projects = () => {
                                             <div className="flex items-center gap-4 flex-shrink-0">
                                                 <div className="text-right hidden sm:block">
                                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Assigned To</p>
-                                                    <p className="text-[10px] font-black text-emerald-600 dark:text-emerald-400">{task.assignedTo?.name}</p>
+                                                    <p className="text-[10px] font-black text-blue-600 dark:text-blue-400">{task.assignedTo?.name}</p>
                                                 </div>
                                                 <Avatar src={task.assignedTo?.profilePic} name={task.assignedTo?.name} size="sm" />
 
@@ -240,7 +240,7 @@ const Projects = () => {
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowProjectModal(false)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" />
                         <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative bg-white dark:bg-[#0f172a] rounded-[2.5rem] p-8 w-full max-w-lg shadow-2xl border border-white/10 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                             <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-6 tracking-tight">Launch New Project</h2>
                             <form onSubmit={handleCreateProject} className="space-y-4">
                                 <div className="space-y-1">
@@ -284,7 +284,7 @@ const Projects = () => {
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowTaskModal(false)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" />
                         <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative bg-white dark:bg-[#0f172a] rounded-[2.5rem] p-8 w-full max-w-lg shadow-2xl border border-white/10 overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
                             <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-6 tracking-tight">Assign Mission</h2>
                             <form onSubmit={handleCreateTask} className="space-y-4">
                                 <div className="space-y-1">

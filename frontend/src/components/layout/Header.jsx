@@ -16,7 +16,7 @@ const Header = ({ title, onMenuClick }) => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={onMenuClick}
-          className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-600 hover:text-white transition-all border border-green-100 dark:border-green-900/50 shadow-sm"
+          className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-600 hover:text-white transition-all border border-blue-100 dark:border-blue-900/50 shadow-sm"
         >
           <span className="text-xl">🌿</span>
         </button>
@@ -26,10 +26,10 @@ const Header = ({ title, onMenuClick }) => {
         </div>
       </div>
       <div className="flex items-center gap-3">
-        {/* Theme Toggle */}
+        {/* Theme Toggle — Restored as per request */}
         <button
           onClick={toggleDarkMode}
-          className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all border border-slate-100 dark:border-slate-800/50"
+          className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-white hover:text-blue-600 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
           title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
         >
           {darkMode ? <Sun size={18} className="fill-current" /> : <Moon size={18} className="fill-current" />}

@@ -11,6 +11,9 @@ const applyLeave = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, errors: errors.array() });
     }
+    if (req.user.role === 'admin') {
+      return res.status(403).json({ success: false, message: 'Admins cannot apply for leave.' });
+    }
 
     const { leaveType, startDate, endDate, reason } = req.body;
 
@@ -66,17 +69,24 @@ const applyLeave = async (req, res) => {
 // @access  Private
 const getLeaves = async (req, res) => {
   try {
-    const { status, leaveType, page = 1, limit = 10, startDate, endDate, date } = req.query;
+    const { status, leaveType, page = 1, limit = 10, startDate, endDate, date, all } = req.query;
     let query = {};
 
     // Role-based filtering
-    if (req.user.role === 'employee') {
-      query.employee = req.user._id;
-    } else if (req.user.role === 'manager') {
-      const teamMembers = await User.find({ managerId: req.user._id }).select('_id');
-      const teamIds = teamMembers.map(m => m._id);
-      teamIds.push(req.user._id);
-      query.employee = { $in: teamIds };
+    if (all === 'true') {
+      // If requesting 'all', we only allow viewing 'approved' leaves for non-admins
+      if (req.user.role !== 'admin') {
+        query.status = 'approved';
+      }
+    } else {
+      if (req.user.role === 'employee') {
+        query.employee = req.user._id;
+      } else if (req.user.role === 'manager') {
+        const teamMembers = await User.find({ managerId: req.user._id }).select('_id');
+        const teamIds = teamMembers.map(m => m._id);
+        teamIds.push(req.user._id);
+        query.employee = { $in: teamIds };
+      }
     }
 
     if (status) query.status = status;
@@ -97,7 +107,7 @@ const getLeaves = async (req, res) => {
 
     const total = await Leave.countDocuments(query);
     const leaves = await Leave.find(query)
-      .populate('employee', 'name email department role profilePic title')
+      .populate('employee', 'name email department role profilePic title managerId')
       .populate('reviewedBy', 'name email')
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
@@ -147,9 +157,20 @@ const reviewLeave = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Status must be approved or rejected.' });
     }
 
-    const leave = await Leave.findById(req.params.id).populate('employee', 'name email department profilePic');
+    const leave = await Leave.findById(req.params.id).populate('employee', 'name email department profilePic role managerId');
     if (!leave) {
       return res.status(404).json({ success: false, message: 'Leave not found.' });
+    }
+
+    // Role-based Approval Checks
+    if (req.user.role === 'manager') {
+      // 1. Manager can only approve if they are the direct manager
+      if (leave.employee.managerId?.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ success: false, message: 'You can only approve leaves of your direct team members.' });
+      }
+      // 2. Already handled by existing logic (status check), but for clarity:
+      // Manager can't approve if the leave's employee is also an admin or something unusual, 
+      // but strictly speaking they are restricted by managerId here.
     }
 
     if (leave.status !== 'pending') {

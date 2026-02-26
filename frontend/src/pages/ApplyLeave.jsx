@@ -114,10 +114,10 @@ const ApplyLeave = () => {
                             </div>
                         </div>
 
-                        <div className="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 space-y-4">
+                        <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 space-y-4">
                             <div className="flex justify-between items-center text-sm">
                                 <span className="text-brand-muted font-bold uppercase tracking-wider text-[10px]">Policy Agreement</span>
-                                <span className="text-emerald-600 cursor-help font-bold underline decoration-emerald-200 underline-offset-4">Read rules</span>
+                                <span className="text-blue-600 cursor-help font-bold underline decoration-blue-200 underline-offset-4">Read rules</span>
                             </div>
                             <p className="text-xs text-slate-500 leading-relaxed">
                                 By submitting this request, you confirm that the information provided is accurate and complies with the company's leave policies. Requests should be submitted at least 48 hours in advance for non-emergencies.
@@ -128,14 +128,14 @@ const ApplyLeave = () => {
                             <button
                                 type="button"
                                 onClick={() => navigate('/dashboard')}
-                                className="flex-1 py-4 px-6 border border-brand-border hover:bg-emerald-50 rounded-2xl font-bold text-brand-muted transition-all"
+                                className="flex-1 py-4 px-6 border border-brand-border hover:bg-blue-50 rounded-2xl font-bold text-brand-muted transition-all"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="flex-[2] bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-emerald-200 transition-all flex items-center justify-center gap-2 group disabled:opacity-70"
+                                className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-6 rounded-2xl shadow-lg shadow-blue-200 transition-all flex items-center justify-center gap-2 group disabled:opacity-70"
                             >
                                 {loading ? (
                                     <Loader2 className="animate-spin" size={20} />

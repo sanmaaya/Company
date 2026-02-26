@@ -29,7 +29,7 @@ const ReviewModal = ({ leave, onClose, onSubmit }) => {
             <div className="flex justify-between items-center"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Type</span><LeaveTypeBadge type={leave.leaveType} /></div>
             <div className="flex justify-between items-center"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">From</span><span className="font-bold dark:text-white">{new Date(leave.startDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
             <div className="flex justify-between items-center"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">To</span><span className="font-bold dark:text-white">{new Date(leave.endDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
-            <div className="flex justify-between items-center pt-2 border-t border-slate-200/50 dark:border-slate-700/50"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Duration</span><span className="text-lg font-black text-emerald-600 dark:text-emerald-400">{leave.totalDays} Days</span></div>
+            <div className="flex justify-between items-center pt-2 border-t border-slate-200/50 dark:border-slate-700/50"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Duration</span><span className="text-lg font-black text-blue-600 dark:text-blue-400">{leave.totalDays} Days</span></div>
             <div className="pt-2 border-t border-slate-200/50 dark:border-slate-700/50"><span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Reason</span><p className="font-medium text-slate-700 dark:text-slate-300 leading-relaxed italic">"{leave.reason}"</p></div>
           </div>
           <div>
@@ -112,7 +112,7 @@ const Approvals = () => {
               <button
                 key={s}
                 onClick={() => setFilter(s)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${filter === s ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${filter === s ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
               >
                 {s} {s === 'pending' && pending > 0 && <span className="ml-1 bg-rose-500 text-white rounded-full px-1.5 py-0.5 text-[10px]">{pending}</span>}
               </button>

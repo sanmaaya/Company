@@ -49,7 +49,7 @@ const LeaveRequests = () => {
 
     const filteredRequests = requests.filter(req => filter === 'all' || req.status === filter);
 
-    if (loading) return <Layout title="Leave Requests"><div className="flex items-center justify-center h-64"><Loader2 className="animate-spin text-emerald-500" size={48} /></div></Layout>;
+    if (loading) return <Layout title="Leave Requests"><div className="flex items-center justify-center h-64"><Loader2 className="animate-spin text-blue-500" size={48} /></div></Layout>;
 
     return (
         <Layout title="Leave Requests">
@@ -65,7 +65,7 @@ const LeaveRequests = () => {
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all capitalize ${filter === f ? 'bg-emerald-600 text-white shadow-md shadow-emerald-200' : 'text-brand-muted hover:text-emerald-600'
+                                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all capitalize ${filter === f ? 'bg-blue-600 text-white shadow-md shadow-blue-200' : 'text-brand-muted hover:text-blue-600'
                                     }`}
                             >
                                 {f}
@@ -88,7 +88,7 @@ const LeaveRequests = () => {
                             >
                                 <div className="flex justify-between items-start mb-6">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-lg font-bold text-primary-600">
+                                        <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-lg font-bold text-primary-600">
                                             {req.user?.name?.[0]}
                                         </div>
                                         <div>
@@ -96,7 +96,7 @@ const LeaveRequests = () => {
                                             <p className="text-xs text-slate-500 font-medium">{req.user?.department} • {req.user?.email}</p>
                                         </div>
                                     </div>
-                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${req.status === 'approved' ? 'bg-emerald-500/10 text-emerald-500' :
+                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${req.status === 'approved' ? 'bg-blue-500/10 text-blue-500' :
                                         req.status === 'pending' ? 'bg-amber-500/10 text-amber-500' :
                                             'bg-rose-500/10 text-rose-500'
                                         }`}>
@@ -104,7 +104,7 @@ const LeaveRequests = () => {
                                     </span>
                                 </div>
 
-                                <div className="bg-emerald-50/30 border border-emerald-100 rounded-2xl p-4 mb-6 grid grid-cols-2 gap-4 text-sm">
+                                <div className="bg-blue-50/30 border border-blue-100 rounded-2xl p-4 mb-6 grid grid-cols-2 gap-4 text-sm">
                                     <div>
                                         <p className="text-slate-500 text-xs mb-1">Leave Type</p>
                                         <p className="font-bold capitalize text-slate-800">{req.leaveType}</p>
@@ -137,15 +137,15 @@ const LeaveRequests = () => {
                                         </button>
                                         <button
                                             onClick={() => handleAction(req._id, 'approved')}
-                                            className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-semibold shadow-lg shadow-emerald-900/20 transition-all"
+                                            className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold shadow-lg shadow-blue-900/20 transition-all"
                                         >
                                             <Check size={18} />
                                             <span>Approve</span>
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className="pt-4 border-t border-emerald-100">
-                                        <p className="text-xs text-emerald-600 font-bold">
+                                    <div className="pt-4 border-t border-blue-100">
+                                        <p className="text-xs text-blue-600 font-bold">
                                             Reviewed by {req.reviewedBy === user._id ? 'You' : 'another Manager'}
                                         </p>
                                         {req.reviewMessage && (
@@ -194,7 +194,7 @@ const LeaveRequests = () => {
                                 </button>
                                 <button
                                     onClick={() => handleAction(selectedRequest._id, 'approved')}
-                                    className="flex-1 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2"
+                                    className="flex-1 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold transition-all flex items-center justify-center gap-2"
                                 >
                                     {actionLoading ? <Loader2 className="animate-spin" size={20} /> : 'Approve'}
                                 </button>

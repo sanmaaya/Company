@@ -11,6 +11,7 @@ const navItems = {
     { path: '/projects', label: 'Projects', icon: '📁' },
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
+    { path: '/contacts', label: 'Team Directory', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ],
   manager: [
@@ -19,6 +20,8 @@ const navItems = {
     { path: '/apply-leave', label: 'Apply Leave', icon: '📝' },
     { path: '/my-leaves', label: 'My Leaves', icon: '📋' },
     { path: '/approvals', label: 'Approvals', icon: '✅' },
+    { path: '/settings', label: 'Settings', icon: '⚙️' },
+    { path: '/contacts', label: 'Team Directory', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ],
   admin: [
@@ -27,6 +30,8 @@ const navItems = {
     { path: '/admin/users', label: 'Manage Users', icon: '👥' },
     { path: '/admin/leaves', label: 'All Leaves', icon: '📋' },
     { path: '/approvals', label: 'Approvals', icon: '✅' },
+    { path: '/settings', label: 'Settings', icon: '⚙️' },
+    { path: '/contacts', label: 'Team Directory', icon: '👥' },
     { path: '/profile', label: 'Profile', icon: '👤' }
   ]
 };
@@ -63,11 +68,11 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
             onClick={() => setCollapsed(!collapsed)}
             className="flex items-center gap-3 hover:opacity-80 transition-all group"
           >
-            <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-sm border border-emerald-100 dark:border-emerald-500/20">
-              <span className="text-xl">🌿</span>
+            <div className="w-10 h-10 flex items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm border border-blue-100 dark:border-blue-500/20 text-xs font-black">
+              WB
             </div>
             {!collapsed && (
-              <span className="font-extrabold text-slate-800 dark:text-white text-lg tracking-tight">EmployeeSync</span>
+              <span className="font-extrabold text-slate-800 dark:text-white text-lg tracking-tight">WORK Balance</span>
             )}
           </button>
 
@@ -94,7 +99,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
               end={item.path === '/employee'}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-3 py-3 rounded-xl mb-1 text-sm font-semibold transition-all ${isActive
-                  ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/10 shadow-sm'
+                  ? 'bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-500/10 shadow-sm'
                   : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-white'
                 }`
               }

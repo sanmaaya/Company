@@ -12,13 +12,13 @@ export const AVATAR_PHOTOS = {
 const GRADIENTS = [
     'from-violet-500 to-purple-600',
     'from-blue-500 to-cyan-600',
-    'from-emerald-500 to-teal-600',
+    'from-blue-500 to-teal-600',
     'from-rose-500 to-pink-600',
     'from-amber-500 to-orange-500',
     'from-indigo-500 to-blue-600',
     'from-fuchsia-500 to-purple-500',
     'from-cyan-500 to-sky-600',
-    'from-lime-500 to-green-600',
+    'from-lime-500 to-blue-600',
     'from-red-500 to-rose-600',
     'from-sky-500 to-indigo-500',
     'from-orange-500 to-amber-600',
@@ -31,10 +31,12 @@ export const getGradient = (name = '') => {
 };
 
 const sizes = {
-    sm: 'w-7 h-7 text-xs',
-    md: 'w-10 h-10 text-sm',
-    lg: 'w-14 h-14 text-xl',
-    xl: 'w-20 h-20 text-3xl',
+    xxs: 'w-5 h-5 text-[8px]',
+    xs: 'w-7 h-7 text-[10px]',
+    sm: 'w-9 h-9 text-xs',
+    md: 'w-11 h-11 text-sm',
+    lg: 'w-16 h-16 text-xl',
+    xl: 'w-24 h-24 text-3xl',
 };
 
 // Avatar — shows real photo if available, otherwise colored initials

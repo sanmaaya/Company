@@ -84,7 +84,7 @@ const UserModal = ({ user, onClose, onSave }) => {
           </div>
           {isEdit && (
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="active" checked={form.isActive} onChange={e => f('isActive', e.target.checked)} className="w-4 h-4 accent-green-600" />
+              <input type="checkbox" id="active" checked={form.isActive} onChange={e => f('isActive', e.target.checked)} className="w-4 h-4 accent-blue-600" />
               <label htmlFor="active" className="text-sm text-gray-700 font-medium">Active Account</label>
             </div>
           )}
@@ -157,7 +157,7 @@ const AdminUsers = () => {
           { label: 'Total Users', val: stats.total, icon: '👥', color: 'border-gray-100 dark:border-slate-800' },
           { label: 'Admins', val: stats.admin, icon: '🛡️', color: 'border-purple-100 dark:border-purple-900/40' },
           { label: 'Managers', val: stats.manager, icon: '👔', color: 'border-blue-100 dark:border-blue-900/40' },
-          { label: 'Employees', val: stats.employee, icon: '👤', color: 'border-green-100 dark:border-green-900/40' }
+          { label: 'Employees', val: stats.employee, icon: '👤', color: 'border-blue-100 dark:border-blue-900/40' }
         ].map(s => (
           <div key={s.label} className={`bg-white dark:bg-slate-900 rounded-xl border shadow-sm p-4 ${s.color}`}>
             <div className="flex items-center justify-between">
@@ -177,11 +177,11 @@ const AdminUsers = () => {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search by name or email..."
-            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="flex-1 min-w-[200px] px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <div className="flex gap-2">
             {['all', 'admin', 'manager', 'employee'].map(r => (
-              <button key={r} onClick={() => setRoleFilter(r)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${roleFilter === r ? 'bg-green-600 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700'}`}>{r}</button>
+              <button key={r} onClick={() => setRoleFilter(r)} className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${roleFilter === r ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-700'}`}>{r}</button>
             ))}
           </div>
           <button onClick={() => setModal('create')} className="btn-primary px-5 whitespace-nowrap">
@@ -229,13 +229,13 @@ const AdminUsers = () => {
                       </div>
                     </td>
                     <td className="table-cell">
-                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${user.isActive ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'}`}>
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${user.isActive ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'}`}>
                         {user.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
                     <td className="table-cell">
                       <div className="flex gap-4">
-                        <button onClick={() => setModal(user)} className="text-emerald-600 dark:text-emerald-400 font-extrabold hover:underline">Edit</button>
+                        <button onClick={() => setModal(user)} className="text-blue-600 dark:text-blue-400 font-extrabold hover:underline">Edit</button>
                         <button onClick={() => handleDelete(user._id)} className="text-rose-500 hover:text-rose-700 font-extrabold hover:underline">Delete</button>
                       </div>
                     </td>

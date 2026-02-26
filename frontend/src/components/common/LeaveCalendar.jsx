@@ -23,7 +23,8 @@ const LeaveCalendar = () => {
                 params: {
                     status: 'approved',
                     startDate: start.toISOString(),
-                    endDate: end.toISOString()
+                    endDate: end.toISOString(),
+                    all: 'true'
                 }
             });
             setLeaves(data.leaves || []);
@@ -52,7 +53,7 @@ const LeaveCalendar = () => {
             <div className="flex items-center justify-between mb-8 px-2">
                 <h3 className="text-xl font-black text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
                     Leave Calendar
-                    <span className="text-[10px] bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full uppercase tracking-widest leading-none">Global</span>
+                    <span className="text-[10px] bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full uppercase tracking-widest leading-none">Global</span>
                 </h3>
                 <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800 rounded-xl p-1">
                     <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition text-slate-400"><ChevronLeft size={16} /></button>
@@ -74,11 +75,11 @@ const LeaveCalendar = () => {
                         <div
                             key={idx}
                             className={`min-h-[72px] p-2 rounded-2xl border transition-all ${isToday(day)
-                                    ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-500 shadow-lg shadow-emerald-500/10'
-                                    : 'bg-slate-50/50 dark:bg-slate-800/30 border-slate-100 dark:border-slate-800'
+                                ? 'bg-blue-50 dark:bg-blue-500/10 border-blue-500 shadow-lg shadow-blue-500/10'
+                                : 'bg-slate-50/50 dark:bg-slate-800/30 border-slate-100 dark:border-slate-800'
                                 }`}
                         >
-                            <p className={`text-[10px] font-black mb-1.5 ${isToday(day) ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-400'}`}>
+                            <p className={`text-[10px] font-black mb-1.5 ${isToday(day) ? 'text-blue-700 dark:text-blue-400' : 'text-slate-400'}`}>
                                 {format(day, 'd')}
                             </p>
                             <div className="flex flex-wrap gap-1">
