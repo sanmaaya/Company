@@ -36,10 +36,11 @@ Three distinct roles with tailored experiences:
 ---
 
 ### 💬 Real-Time Chat
-- Peer-to-peer direct messaging and group chats ("Squads").
-- **Persistent history** — Messages are stored in MongoDB and loaded on re-open.
-- Real-time online/offline indicators and typing notifications.
-- Toast notifications for new messages when the chat widget is minimised.
+- **Direct Messaging** — Peer-to-peer real-time communication between any two agents.
+- **Persistent history** — Messages are synchronized with MongoDB and loaded contextually.
+- **Unread Counters** — Accurately tracks unread counts internally for messages while offline or tabbed away.
+- **Micro-Events** — Real-time online/offline indicators and typing animations.
+- Toast notifications for incoming transmissions when the chat widget is minimized.
 
 ---
 

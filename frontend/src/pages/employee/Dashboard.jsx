@@ -8,7 +8,7 @@ import Avatar from '../../components/common/Avatar';
 import LeaveCalendar from '../../components/common/LeaveCalendar';
 import CompanyStatusList from '../../components/common/CompanyStatusList';
 import api from '../../utils/api';
-import { Layout, ListTodo, CheckCircle2, Clock, MapPin, Briefcase, CheckSquare } from 'lucide-react';
+import { Layout, ListTodo, CheckCircle2, Clock, MapPin, Briefcase, CheckSquare, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 const StatCard = ({ label, value, icon, color, sub, textColor = 'text-slate-800' }) => (

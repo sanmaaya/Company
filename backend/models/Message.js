@@ -25,7 +25,11 @@ const messageSchema = new mongoose.Schema({
     time: {
         type: Date,
         default: Date.now
-    }
+    },
+    readBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Message', messageSchema);

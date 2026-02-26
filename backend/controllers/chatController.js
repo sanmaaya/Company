@@ -42,7 +42,31 @@ const createGroup = async (req, res) => {
     }
 };
 
+const Message = require('../models/Message');
+
+const getUnreadCounts = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        // Find all messages that are not sent by this user and where readBy doesn't include user
+        const unreadMessages = await Message.find({
+            senderId: { $ne: userId },
+            readBy: { $ne: userId }
+        });
+
+        const counts = {};
+        unreadMessages.forEach(msg => {
+            counts[msg.roomId] = (counts[msg.roomId] || 0) + 1;
+        });
+
+        res.json({ success: true, counts });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 module.exports = {
     getGroups,
-    createGroup
+    createGroup,
+    getUnreadCounts
 };

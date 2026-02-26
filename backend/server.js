@@ -33,7 +33,14 @@ io.on('connection', (socket) => {
     io.emit('users:online', Object.values(onlineUsers));
   });
 
-  // Join a room (direct message or group)
+  // Subscribe to background rooms for notifications
+  socket.on('rooms:subscribe', ({ rooms }) => {
+    if (Array.isArray(rooms)) {
+      rooms.forEach(roomId => socket.join(roomId));
+    }
+  });
+
+  // Join a room actively (fetches history)
   socket.on('room:join', async ({ roomId }) => {
     socket.join(roomId);
     try {
@@ -45,6 +52,18 @@ io.on('connection', (socket) => {
       socket.emit('messages:history', history.reverse());
     } catch (err) {
       console.error('Error fetching chat history:', err);
+    }
+  });
+
+  // Mark messages as read
+  socket.on('messages:read', async ({ roomId, userId }) => {
+    try {
+      await Message.updateMany(
+        { roomId, senderId: { $ne: userId }, readBy: { $ne: userId } },
+        { $addToSet: { readBy: userId } }
+      );
+    } catch (err) {
+      console.error('Error marking messages read:', err);
     }
   });
 

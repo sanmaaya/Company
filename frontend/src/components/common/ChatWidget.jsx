@@ -4,29 +4,23 @@ import { useAuth } from '../../context/AuthContext';
 import Avatar from './Avatar';
 import api from '../../utils/api';
 import { toast } from 'react-hot-toast';
-import { Plus, Users, MessageSquare, Send, X, ArrowLeft, ChevronRight, Hash } from 'lucide-react';
+import { MessageSquare, Send, X, ArrowLeft } from 'lucide-react';
 
-let socket = null;
-
-// Generate roomId for DMs, Groups use their own _id
+// Generate roomId for DMs
 const getRoomId = (id1, id2) => [id1, id2].sort().join('_');
 
 const ChatWidget = () => {
     const { user } = useAuth();
+    const socketRef = useRef(null);
     const [open, setOpen] = useState(false);
-    const [view, setView] = useState('list'); // 'list' | 'chat' | 'create-group'
+    const [view, setView] = useState('list'); // 'list' | 'chat'
     const [users, setUsers] = useState([]);
-    const [groups, setGroups] = useState([]);
     const [onlineIds, setOnlineIds] = useState([]);
-    const [activeTarget, setActiveTarget] = useState(null); // User or Group
+    const [activeTarget, setActiveTarget] = useState(null); // User only
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
     const [typing, setTyping] = useState(false);
     const [unreadCounts, setUnreadCounts] = useState({}); // { roomId: count }
-
-    // Group Creation State
-    const [groupName, setGroupName] = useState('');
-    const [selectedMembers, setSelectedMembers] = useState([]);
 
     const bottomRef = useRef(null);
     const typingTimer = useRef(null);
@@ -35,7 +29,7 @@ const ChatWidget = () => {
     useEffect(() => {
         if (!user) return;
         fetchUsers();
-        fetchGroups();
+        fetchUnreadCounts();
     }, [user]);
 
     const fetchUsers = async () => {
@@ -45,59 +39,70 @@ const ChatWidget = () => {
         } catch (err) { }
     };
 
-    const fetchGroups = async () => {
+    const fetchUnreadCounts = async () => {
         try {
-            const res = await api.get('/chat/groups');
-            setGroups(res.data.groups || []);
-        } catch (err) { }
+            const countsRes = await api.get('/chat/unread-counts');
+            setUnreadCounts(countsRes.data.counts || {});
+        } catch (err) { console.error(err); }
     };
 
-    // Socket Connection
+    // Main Socket Connection - only reconnect on user change
     useEffect(() => {
         if (!user) return;
 
-        socket = io('http://localhost:5000', {
+        const newSocket = io('http://localhost:5000', {
             transports: ['websocket'],
             withCredentials: true
         });
+        socketRef.current = newSocket;
 
-        socket.emit('user:online', {
+        newSocket.emit('user:online', {
             userId: user._id,
             name: user.name,
             role: user.role,
             profilePic: user.profilePic
         });
 
-        socket.on('users:online', (list) => {
+        newSocket.on('users:online', (list) => {
             setOnlineIds(list.map(u => u.userId));
         });
 
-        socket.on('message:new', (msg) => {
-            const currentRoomId = activeTarget ? (activeTarget.name ? activeTarget._id : getRoomId(user._id, activeTarget._id)) : null;
+        return () => {
+            newSocket.disconnect();
+            socketRef.current = null;
+        };
+    }, [user?._id]);
 
-            if (msg.roomId === currentRoomId) {
+    // Socket Event Listeners for Messages
+    useEffect(() => {
+        const socket = socketRef.current;
+        if (!socket || !user) return;
+
+        const handleNewMessage = (msg) => {
+            const currentRoomId = activeTarget ? getRoomId(user._id, activeTarget._id) : null;
+
+            if (msg.roomId === currentRoomId && open && view === 'chat') {
                 setMessages(prev => [...prev, msg]);
                 setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+                socketRef.current?.emit('messages:read', { roomId: msg.roomId, userId: user._id });
             } else {
-                // Handle unread count if it's not the active chat or widget is closed
                 if (msg.senderId !== user._id) {
                     setUnreadCounts(prev => ({
                         ...prev,
                         [msg.roomId]: (prev[msg.roomId] || 0) + 1
                     }));
 
-                    // Show Toast Notification
                     toast((t) => (
                         <div className="flex items-center gap-3 cursor-pointer" onClick={() => {
                             toast.dismiss(t.id);
                             setOpen(true);
-                            const target = groups.find(g => g._id === msg.roomId) || users.find(u => getRoomId(user._id, u._id) === msg.roomId);
+                            const target = users.find(u => getRoomId(user._id, u._id) === msg.roomId);
                             if (target) openChat(target);
                         }}>
                             <Avatar src={msg.senderPic} name={msg.senderName} size="sm" />
                             <div className="flex-1 min-w-0">
                                 <p className="font-black text-[10px] text-white uppercase tracking-tighter opacity-70">
-                                    {groups.find(g => g._id === msg.roomId) ? `Group: ${groups.find(g => g._id === msg.roomId).name}` : 'Private Message'}
+                                    Private Message
                                 </p>
                                 <p className="font-black text-xs text-white uppercase tracking-tight">{msg.senderName}</p>
                                 <p className="text-[11px] text-blue-100/80 truncate font-medium">{msg.text}</p>
@@ -110,36 +115,58 @@ const ChatWidget = () => {
                     });
                 }
             }
-        });
+        };
 
-        socket.on('messages:history', (history) => {
+        const handleHistory = (history) => {
             setMessages(history);
             setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
-        });
+        };
 
-        socket.on('typing:update', ({ name, typing }) => {
+        const handleTyping = ({ name, typing }) => {
             setTyping(typing ? name : false);
-        });
+        };
 
-        return () => socket?.disconnect();
-    }, [user, activeTarget, open, groups, users]);
+        socket.on('message:new', handleNewMessage);
+        socket.on('messages:history', handleHistory);
+        socket.on('typing:update', handleTyping);
+
+        return () => {
+            socket.off('message:new', handleNewMessage);
+            socket.off('messages:history', handleHistory);
+            socket.off('typing:update', handleTyping);
+        };
+    }, [user, activeTarget, users, open, view]);
+    // ^ Re-bind events whenever state changes WITHOUT dropping the socket link!
+
+    // Subscribe to all chat rooms for presence updates implicitly
+    useEffect(() => {
+        const socket = socketRef.current;
+        if (!socket || !user) return;
+
+        const myRooms = users.map(u => getRoomId(user._id, u._id));
+
+        if (myRooms.length > 0) {
+            socket.emit('rooms:subscribe', { rooms: myRooms });
+        }
+    }, [users, user]);
 
     const openChat = (target) => {
-        const roomId = target.name && target.members ? target._id : getRoomId(user._id, target._id);
+        const roomId = getRoomId(user._id, target._id);
         setActiveTarget(target);
         setView('chat');
         setMessages([]);
         setUnreadCounts(prev => ({ ...prev, [roomId]: 0 }));
-        socket?.emit('room:join', { roomId });
+        socketRef.current?.emit('room:join', { roomId });
+        socketRef.current?.emit('messages:read', { roomId, userId: user._id });
     };
 
     const sendMessage = (e) => {
         e.preventDefault();
         if (!text.trim() || !activeTarget) return;
 
-        const roomId = activeTarget.name && activeTarget.members ? activeTarget._id : getRoomId(user._id, activeTarget._id);
+        const roomId = getRoomId(user._id, activeTarget._id);
 
-        socket?.emit('message:send', {
+        socketRef.current?.emit('message:send', {
             roomId,
             senderId: user._id,
             senderName: user.name,
@@ -147,41 +174,17 @@ const ChatWidget = () => {
             text: text.trim()
         });
 
-        socket?.emit('typing:stop', { roomId });
+        socketRef.current?.emit('typing:stop', { roomId });
         setText('');
     };
 
     const handleTyping = (e) => {
         setText(e.target.value);
         if (!activeTarget) return;
-        const roomId = activeTarget.name && activeTarget.members ? activeTarget._id : getRoomId(user._id, activeTarget._id);
-        socket?.emit('typing:start', { roomId, name: user.name });
+        const roomId = getRoomId(user._id, activeTarget._id);
+        socketRef.current?.emit('typing:start', { roomId, name: user.name });
         clearTimeout(typingTimer.current);
-        typingTimer.current = setTimeout(() => socket?.emit('typing:stop', { roomId }), 1500);
-    };
-
-    const createGroupChat = async () => {
-        if (!groupName.trim() || selectedMembers.length === 0) return;
-        try {
-            const res = await api.post('/chat/groups', {
-                name: groupName,
-                members: selectedMembers,
-                isPrivate: false
-            });
-            setGroups(prev => [...prev, res.data.group]);
-            setView('list');
-            setGroupName('');
-            setSelectedMembers([]);
-            toast.success('Group Created!');
-        } catch (err) {
-            toast.error('Failed to create group');
-        }
-    };
-
-    const toggleMember = (id) => {
-        setSelectedMembers(prev =>
-            prev.includes(id) ? prev.filter(m => m !== id) : [...prev, id]
-        );
+        typingTimer.current = setTimeout(() => socketRef.current?.emit('typing:stop', { roomId }), 1500);
     };
 
     const totalUnread = Object.values(unreadCounts).reduce((a, b) => a + b, 0);
@@ -213,20 +216,13 @@ const ChatWidget = () => {
                         <div className="flex-1">
                             <h3 className="text-white font-black text-lg tracking-tight">
                                 {view === 'list' && "Operations Hub"}
-                                {view === 'chat' && (activeTarget.name || activeTarget.name)}
-                                {view === 'create-group' && "Form New Squad"}
+                                {view === 'chat' && activeTarget?.name}
                             </h3>
                             <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest opacity-80 leading-none mt-1">
                                 {view === 'list' && `${onlineIds.length} Agents Online`}
-                                {view === 'chat' && (activeTarget.members ? `${activeTarget.members.length} Members` : (onlineIds.includes(activeTarget._id) ? 'Online Now' : 'Last seen recently'))}
-                                {view === 'create-group' && "Select your team members"}
+                                {view === 'chat' && (onlineIds.includes(activeTarget?._id) ? 'Online Now' : 'Last seen recently')}
                             </p>
                         </div>
-                        {view === 'list' && (
-                            <button onClick={() => setView('create-group')} className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center text-slate-900 hover:scale-105 transition active:scale-95">
-                                <Plus size={20} />
-                            </button>
-                        )}
                     </div>
 
                     {/* Content */}
@@ -235,31 +231,6 @@ const ChatWidget = () => {
                         {/* LIST VIEW */}
                         {view === 'list' && (
                             <div className="h-full overflow-y-auto p-4 space-y-6 custom-scrollbar">
-                                {/* Groups Section */}
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                                        <Users size={12} /> Active Squads
-                                    </p>
-                                    <div className="space-y-2">
-                                        {groups.map(g => (
-                                            <button key={g._id} onClick={() => openChat(g)} className="w-full flex items-center gap-4 p-4 rounded-[1.5rem] hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-100 dark:hover:border-slate-800 transition group relative">
-                                                <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 group-hover:bg-indigo-500 group-hover:text-white transition-all shadow-inner">
-                                                    <Hash size={24} />
-                                                </div>
-                                                <div className="text-left flex-1 min-w-0">
-                                                    <p className="font-black text-slate-800 dark:text-slate-100 text-sm truncate">{g.name}</p>
-                                                    <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">{g.members.length} Members</p>
-                                                </div>
-                                                {unreadCounts[g._id] > 0 && (
-                                                    <span className="w-5 h-5 bg-blue-500 rounded-full text-[9px] font-black text-white flex items-center justify-center ring-4 ring-white dark:ring-slate-950">
-                                                        {unreadCounts[g._id]}
-                                                    </span>
-                                                )}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
                                 {/* Direct Messages Section */}
                                 <div>
                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
@@ -285,44 +256,6 @@ const ChatWidget = () => {
                                         ))}
                                     </div>
                                 </div>
-                            </div>
-                        )}
-
-                        {/* CREATE GROUP VIEW */}
-                        {view === 'create-group' && (
-                            <div className="h-full flex flex-col p-6 space-y-6">
-                                <div>
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Squad Designation</label>
-                                    <input
-                                        value={groupName}
-                                        onChange={(e) => setGroupName(e.target.value)}
-                                        placeholder="e.g. ALPHA SQUAD"
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl px-5 py-4 font-black text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                                    />
-                                </div>
-                                <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-4">Deploy Operatives</label>
-                                    {users.map(u => (
-                                        <button
-                                            key={u._id}
-                                            onClick={() => toggleMember(u._id)}
-                                            className={`w-full flex items-center gap-4 p-3 rounded-2xl border transition-all ${selectedMembers.includes(u._id) ? 'bg-blue-500/10 border-blue-500' : 'border-slate-100 dark:border-slate-800'}`}
-                                        >
-                                            <Avatar src={u.profilePic} name={u.name} size="sm" />
-                                            <span className={`text-xs font-black flex-1 text-left ${selectedMembers.includes(u._id) ? 'text-blue-600' : 'text-slate-600 dark:text-slate-400'}`}>{u.name}</span>
-                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMembers.includes(u._id) ? 'bg-blue-500 border-blue-500 text-white' : 'border-slate-200 dark:border-slate-700'}`}>
-                                                {selectedMembers.includes(u._id) && <Plus size={12} className="rotate-45" />}
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                                <button
-                                    onClick={createGroupChat}
-                                    disabled={!groupName.trim() || selectedMembers.length === 0}
-                                    className="w-full bg-blue-500 text-slate-900 font-black py-5 rounded-2xl shadow-xl shadow-blue-500/20 hover:scale-[1.02] active:scale-95 transition disabled:opacity-40 disabled:hover:scale-100 uppercase tracking-widest text-xs"
-                                >
-                                    Confirm Strategic Unit
-                                </button>
                             </div>
                         )}
 
