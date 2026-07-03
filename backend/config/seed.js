@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {}
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 dotenv.config({ path: require('path').resolve(__dirname, '../.env') });
@@ -11,7 +15,7 @@ const Group = require('../models/Group');
 
 const seedDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/leavesync');
+    await mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/leavesync');
     console.log('Connected to MongoDB');
 
     await User.deleteMany({});
