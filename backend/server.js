@@ -10,10 +10,30 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:3000'
+].filter(Boolean);
+
+const corsOriginChecker = (origin, callback) => {
+  // Allow requests with no origin (like mobile apps, curl, etc.)
+  if (!origin) return callback(null, true);
+  
+  const isAllowed = allowedOrigins.includes(origin) || 
+                    origin.endsWith('.vercel.app');
+                    
+  if (isAllowed) {
+    callback(null, true);
+  } else {
+    callback(null, false); // Pass false to reject CORS gracefully or let client handle block
+  }
+};
+
 // Socket.io setup
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: corsOriginChecker,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -101,7 +121,7 @@ io.on('connection', (socket) => {
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: corsOriginChecker,
   credentials: true
 }));
 app.use(express.json());
