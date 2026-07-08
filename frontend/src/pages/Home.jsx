@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
-import { Monitor, Zap, Shield, BarChart3, Clock, CheckCircle2, ChevronRight, PlayCircle, Star, Users, ArrowRight } from 'lucide-react';
+import { Monitor, Zap, Shield, BarChart3, Clock, CheckCircle2, ChevronRight, PlayCircle, Star, Users, ArrowRight, Layout, FileText } from 'lucide-react';
 
 import Footer from '../components/layout/Footer';
 
@@ -98,11 +98,11 @@ const Home = () => {
                             Trusted by 10,000+ Enterprises
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black leading-[1.1] tracking-tight mb-8 !text-slate-900 dark:!text-slate-900">
-                            Leave Management<br />
+                            Your Entire Workspace<br />
                             <span className="text-blue-600">Perfectly Balanced.</span>
                         </h1>
                         <p className="text-lg md:text-xl text-slate-500 dark:text-slate-500 mb-12 leading-relaxed max-w-2xl mx-auto font-medium">
-                            Step into the future of HR. Automate leave cycles, track availability in real-time, and empower your workforce with WORK Balance's modern platform.
+                            Bridge the gap between project delivery and employee experience. Track tasks, streamline leaves, and process reimbursements in one modern workspace.
                         </p>
                         <div className="flex flex-wrap gap-5 justify-center">
                             <button onClick={() => navigate('/register')} className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-black text-lg rounded-2xl shadow-2xl shadow-blue-600/30 transition-all flex items-center gap-2 group">
@@ -191,7 +191,7 @@ const Home = () => {
                             viewport={{ once: true }}
                             className="inline-block text-[10px] font-black tracking-widest uppercase text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full mb-4">Core System</motion.div>
                         <h2 className="text-2xl md:text-4xl font-black !text-slate-900 dark:!text-slate-900 mb-4">Enterprise Grade Features</h2>
-                        <p className="text-slate-500 dark:text-slate-500 text-base max-w-xl mx-auto font-medium leading-relaxed">Everything you need to replace your legacy spreadsheets and automate your leave request lifecycle.</p>
+                        <p className="text-slate-500 dark:text-slate-500 text-base max-w-xl mx-auto font-medium leading-relaxed">Everything you need to manage project tasks, streamline leaves, and track business reimbursements.</p>
                     </div>
 
 
@@ -214,24 +214,24 @@ const Home = () => {
                             desc="Real-time notifications and one-click decisions from any device. Simplified for modern managers."
                         />
                         <FeatureCard
-                            icon={<Shield className="text-blue-600" size={24} />}
-                            title="Enterprise Security"
-                            desc="Role-based access control and secure data encryption. Your team data is safe and auditable."
+                            icon={<Layout className="text-blue-600" size={24} />}
+                            title="Project Delivery"
+                            desc="Plan projects, allocate resources, and track progress using interactive task boards and collaboration tools."
+                        />
+                        <FeatureCard
+                            icon={<FileText className="text-blue-600" size={24} />}
+                            title="Expense Claims"
+                            desc="Submit, track, and approve employee business reimbursements with full transparency."
                         />
                         <FeatureCard
                             icon={<BarChart3 className="text-blue-600" size={24} />}
                             title="Live Analytics"
-                            desc="Visualize team availability trends and department heatmaps at a glance in your command center."
+                            desc="Visualize department workloads, budgets, and leave cycles at a glance in your command center."
                         />
                         <FeatureCard
-                            icon={<Clock className="text-blue-600" size={24} />}
-                            title="Time Tracking"
-                            desc="Keep accurate logs of sick, casual and earned leaves. Balances update automatically in real-time."
-                        />
-                        <FeatureCard
-                            icon={<CheckCircle2 className="text-blue-600" size={24} />}
-                            title="Compliance Ready"
-                            desc="Stay compliant with company policies and local laws using automated rules and tracking."
+                            icon={<Shield className="text-blue-600" size={24} />}
+                            title="Enterprise Security"
+                            desc="Role-based access control and secure data encryption. Your team data is safe and auditable."
                         />
                         <FeatureCard
                             icon={<Users className="text-blue-600" size={24} />}
@@ -271,14 +271,14 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto reveal opacity-0">
                     <div className="text-center mb-24">
                         <h2 className="text-2xl md:text-4xl font-black !text-slate-900 dark:!text-slate-900 mb-4">How it Works</h2>
-                        <p className="text-slate-500 dark:text-slate-500 text-base max-w-xl mx-auto font-medium">Three simple steps to transition your team to modern HRMS.</p>
+                        <p className="text-slate-500 dark:text-slate-500 text-base max-w-xl mx-auto font-medium">Three simple steps to transition your team to a unified workspace.</p>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                         {[
                             { num: '01', title: 'Onboard Team', desc: 'Sync your organizational directory via CSV or secure API hooks in minutes.' },
-                            { num: '02', title: 'Customize Rules', desc: 'Define leave quotas and approval chains using our simple policy builder.' },
-                            { num: '03', title: 'Empower Users', desc: 'Invite employees to their new mobile-friendly self-service leave dashboard.' }
+                            { num: '02', title: 'Customize Rules', desc: 'Define leave rules, reimbursement thresholds, and project boards.' },
+                            { num: '03', title: 'Empower Users', desc: 'Invite employees to their self-service dashboard to manage work and time off.' }
                         ].map((s, i) => (
                             <div key={i} className="p-8 bg-slate-50 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-xl transition-all group">
                                 <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-xl font-black mb-6 shadow-lg shadow-blue-500/20">0{i + 1}</div>
@@ -312,7 +312,7 @@ const Home = () => {
                             </div>
 
                             <ul className="space-y-4 mb-10 flex-1">
-                                {['Up to 20 Employees', 'Core Leave Engine', 'Email Support'].map(f => (
+                                {['Up to 20 Employees', 'Core Workspace Tools', 'Email Support'].map(f => (
                                     <li key={f} className="flex items-center gap-3 text-slate-600 dark:text-slate-600 font-bold text-sm">
                                         <CheckCircle2 className="text-blue-500 w-4 h-4" /> {f}
                                     </li>
@@ -353,7 +353,7 @@ const Home = () => {
             <section className="py-32 px-6 md:px-14 text-center bg-slate-900 relative overflow-hidden reveal opacity-0 transition-all duration-1000 translate-y-10">
                 <div className="relative z-10 max-w-3xl mx-auto font-sans">
                     <h2 className="text-3xl md:text-5xl font-black text-white mb-8">Ready to modernize?</h2>
-                    <p className="text-slate-400 text-lg mb-12 font-medium">Deploy WORK Balance to your organization today and eliminate HR complexity.</p>
+                    <p className="text-slate-400 text-lg mb-12 font-medium">Deploy WORK Balance to your organization today and bring harmony to your team's workflow.</p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <button onClick={() => navigate('/register')} className="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl transition-all text-lg">
                             Deploy Now
